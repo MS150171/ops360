@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OPS360">
+<script>
+// ── INLINE MANIFEST ──
+window.addEventListener('DOMContentLoaded',()=>{
+  const m={"name":"OPS360 — Globales Einsatz-Management","short_name":"OPS360","start_url":".","display":"standalone","background_color":"#080c18","theme_color":"#f59e0b","icons":[]};
+  const b=new Blob([JSON.stringify(m)],{type:'application/manifest+json'});
+  const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);
+});
+// ── INLINE SERVICE WORKER ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    const sw=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>self.clients.claim());self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>new Response('Offline')));});`;
+    const b=new Blob([sw],{type:'text/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(b),{scope:'/'}).catch(()=>{});
+  });
+}
+</script>
+<title>OPS360 — Globales Einsatz-Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c18;
+  --bg2: #0d1225;
+  --bg3: #111830;
+  --panel: #141c35;
+  --panel2: #1a2340;
+  --border: #1e2d50;
+  --border2: #253563;
+  --amber: #f59e0b;
+  --amber2: #fbbf24;
+  --amber-dim: rgba(245,158,11,0.15);
+  --amber-glow: rgba(245,158,11,0.08);
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.15);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.15);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.15);
+  --cyan: #06b6d4;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --radius: 4px;
+  --radius2: 8px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.5);
+  --transition: 0.2s ease;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── TOPBAR ── */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 20px;
+  gap: 20px;
+}
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 2px;
+  display: flex; align-items: center; gap: 10px;
+  white-space: nowrap;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: var(--amber);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.logo-icon::after {
+  content: '';
+  width: 14px; height: 14px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+}
+.logo-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: var(--text3); font-weight: 400;
+  margin-top: -4px;
+}
+.topbar-center { flex: 1; }
+.clock {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem; color: var(--text2);
+  letter-spacing: 2px;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+.topbar-btn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem; letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.topbar-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  width: 220px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto; z-index: 90;
+  transition: transform 0.3s ease;
+}
+.nav-section { padding: 16px 12px 8px; }
+.nav-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 8px; padding: 0 8px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; letter-spacing: 0.5px; font-weight: 500;
+  color: var(--text2);
+  border: 1px solid transparent;
+  position: relative;
+}
+.nav-item:hover { background: var(--panel); color: var(--text); }
+.nav-item.active {
+  background: var(--amber-dim);
+  border-color: var(--border2);
+  color: var(--amber);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 3px; background: var(--amber);
+  border-radius: 0 2px 2px 0;
+}
+.nav-icon { font-size: 1rem; width: 20px; text-align: center; }
+.nav-badge {
+  margin-left: auto;
+  background: var(--amber);
+  color: var(--bg);
+  font-size: 0.6rem; font-weight: 700;
+  padding: 1px 5px; border-radius: 10px;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── MAIN ── */
+.main {
+  margin-left: 220px; margin-top: 56px;
+  padding: 24px;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── VIEWS ── */
+.view { display: none; animation: fadeIn 0.3s ease; }
+.view.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 24px;
+}
+.page-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2rem; font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.page-title span { color: var(--amber); }
+.page-sub {
+  font-size: 0.8rem; color: var(--text3);
+  margin-top: 4px; letter-spacing: 1px;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;
+  cursor: pointer; border: none;
+  transition: var(--transition);
+}
+.btn-primary { background: var(--amber); color: var(--bg); }
+.btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: var(--amber);
+  border: 1px solid var(--amber);
+}
+.btn-outline:hover { background: var(--amber-dim); }
+.btn-ghost {
+  background: var(--panel); color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--border2); color: var(--text); }
+.btn-danger { background: var(--red); color: white; }
+.btn-success { background: var(--green); color: var(--bg); }
+.btn-sm { padding: 5px 10px; font-size: 0.75rem; }
+
+/* ── GRID ── */
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.grid-12 { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+.grid-21 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 20px;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; letter-spacing: 3px;
+  color: var(--text3); text-transform: uppercase; font-weight: 600;
+}
+
+/* ── KPI CARDS ── */
+.kpi-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 20px;
+  position: relative; overflow: hidden;
+  transition: var(--transition);
+}
+.kpi-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+.kpi-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.kpi-card.amber::before { background: var(--amber); }
+.kpi-card.green::before { background: var(--green); }
+.kpi-card.blue::before { background: var(--blue); }
+.kpi-card.red::before { background: var(--red); }
+.kpi-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+}
+.kpi-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.4rem; font-weight: 900;
+  line-height: 1; margin: 8px 0 4px;
+}
+.kpi-card.amber .kpi-value { color: var(--amber); }
+.kpi-card.green .kpi-value { color: var(--green); }
+.kpi-card.blue .kpi-value { color: var(--blue); }
+.kpi-card.red .kpi-value { color: var(--red); }
+.kpi-sub { font-size: 0.75rem; color: var(--text3); }
+.kpi-icon {
+  position: absolute; right: 16px; top: 16px;
+  font-size: 2rem; opacity: 0.15;
+}
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--panel2); }
+
+/* ── BADGES ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 0.7rem; font-weight: 600;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.5px;
+}
+.badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+.badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+.badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+.badge-gray { background: rgba(100,116,139,0.2); color: var(--text3); border: 1px solid rgba(100,116,139,0.3); }
+
+/* ── FORMS ── */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-control {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 9px 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  outline: none;
+}
+.form-control:focus { border-color: var(--amber); box-shadow: 0 0 0 2px var(--amber-dim); }
+.form-control::placeholder { color: var(--text3); }
+select.form-control option { background: var(--bg3); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── PROGRESS ── */
+.progress-bar {
+  height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+  margin-top: 8px;
+}
+.progress-fill {
+  height: 100%; border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 20px; }
+.timeline-dot {
+  position: absolute; left: -20px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid;
+}
+.timeline-dot.amber { border-color: var(--amber); background: var(--amber-dim); }
+.timeline-dot.green { border-color: var(--green); background: var(--green-dim); }
+.timeline-dot.blue { border-color: var(--blue); background: var(--blue-dim); }
+.timeline-dot.gray { border-color: var(--border2); background: var(--border); }
+.timeline-time {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; color: var(--text3);
+  margin-bottom: 2px;
+}
+.timeline-title { font-size: 0.85rem; font-weight: 600; }
+.timeline-desc { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,12,24,0.85);
+  backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  width: 90%; max-width: 780px; max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+  animation: modalIn 0.25s ease;
+}
+@keyframes modalIn { from { transform: scale(0.95); opacity:0; } to { transform:scale(1); opacity:1; } }
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem; font-weight: 700; letter-spacing: 1px;
+}
+.modal-close {
+  background: none; border: none; color: var(--text3);
+  font-size: 1.2rem; cursor: pointer;
+  transition: var(--transition);
+}
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 24px; }
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px; justify-content: flex-end;
+}
+
+/* ── MAP PLACEHOLDER ── */
+.world-map {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  height: 260px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.world-map svg { width: 100%; height: 100%; opacity: 0.6; }
+.map-dot {
+  position: absolute;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 12px var(--amber);
+  animation: pulse 2s infinite;
+}
+.map-label {
+  position: absolute;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; color: var(--amber);
+  white-space: nowrap;
+  margin-top: 12px;
+}
+
+/* ── ALERT ── */
+.alert {
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+.alert-amber { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.3); color: var(--amber2); }
+.alert-green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.3); color: var(--green); }
+.alert-red { background: var(--red-dim); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
+
+/* ── SERVICE GRID ── */
+.service-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: var(--transition);
+}
+.service-card:hover { border-color: var(--border2); }
+.service-icon { font-size: 1.8rem; }
+.service-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px;
+}
+.service-count { font-size: 0.75rem; color: var(--text3); }
+.service-status { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; }
+
+/* ── DEPT TABS ── */
+.dept-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.dept-tab {
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem; letter-spacing: 0.5px; font-weight: 500;
+  transition: var(--transition);
+}
+.dept-tab:hover { border-color: var(--border2); }
+.dept-tab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+
+/* ── STEP INDICATOR ── */
+.steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+.step { display: flex; align-items: center; gap: 8px; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  border: 2px solid var(--border2); color: var(--text3);
+}
+.step.done .step-num { background: var(--green); border-color: var(--green); color: var(--bg); }
+.step.active .step-num { background: var(--amber); border-color: var(--amber); color: var(--bg); }
+.step-label { font-size: 0.8rem; color: var(--text3); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; }
+.step.active .step-label { color: var(--amber); }
+.step.done .step-label { color: var(--green); }
+.step-line { flex: 1; height: 1px; background: var(--border); min-width: 20px; }
+.step-line.done { background: var(--green); }
+
+/* ── PRINT ── */
+@media print {
+  .sidebar, .topbar, .no-print { display: none !important; }
+  .main { margin: 0; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .grid-4 { grid-template-columns: repeat(2,1fr); }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-12, .grid-21 { grid-template-columns: 1fr; }
+}
+
+/* ── TOAST ── */
+.toast-container {
+  position: fixed; bottom: 20px; right: 20px;
+  z-index: 999; display: flex; flex-direction: column; gap: 8px;
+}
+.toast {
+  background: var(--panel2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  min-width: 260px;
+  animation: toastIn 0.3s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+@keyframes toastIn { from { transform: translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
+
+/* ── SLIDER ── */
+.slider-wrap { display: flex; align-items: center; gap: 12px; }
+input[type=range] {
+  flex: 1; accent-color: var(--amber);
+  background: var(--border); height: 4px; border-radius: 2px;
+}
+.slider-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem; color: var(--amber);
+  min-width: 50px; text-align: right;
+}
+
+/* ── DONUT CHART ── */
+.donut-wrap { display: flex; align-items: center; gap: 20px; }
+.donut-legend { display: flex; flex-direction: column; gap: 8px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── CALENDAR STRIP ── */
+.cal-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.cal-day {
+  min-width: 52px; padding: 8px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); text-align: center;
+  cursor: pointer; transition: var(--transition);
+}
+.cal-day:hover { border-color: var(--border2); }
+.cal-day.active { background: var(--amber-dim); border-color: var(--amber); }
+.cal-day.has-event { border-color: var(--blue); }
+.cal-day-num { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; }
+.cal-day-name { font-size: 0.65rem; color: var(--text3); }
+.cal-event-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--blue); margin: 2px auto 0; }
+
+/* Utility */
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.mt16 { margin-top: 16px; }
+.mt20 { margin-top: 20px; }
+.mb8 { margin-bottom: 8px; }
+.mb12 { margin-bottom: 12px; }
+.mb16 { margin-bottom: 16px; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap8 { gap: 8px; }
+.gap12 { gap: 12px; }
+.gap16 { gap: 16px; }
+.text-amber { color: var(--amber); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-blue { color: var(--blue); }
+.text-muted { color: var(--text3); }
+.text-sm { font-size: 0.8rem; }
+.text-xs { font-size: 0.7rem; }
+.font-mono { font-family: 'Space Mono', monospace; }
+.font-cond { font-family: 'Barlow Condensed', sans-serif; }
+.fw7 { font-weight: 700; }
+.w-full { width: 100%; }
+.separator { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-icon"></div>
+    <div>
+      OPS360
+      <div class="logo-sub">GLOBAL OPERATIONS</div>
+    </div>
+  </div>
+  <button class="topbar-btn" onclick="toggleSidebar()" style="display:none" id="menuBtn">☰</button>
+  <div class="topbar-center">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <div class="clock" id="clock">--:--:-- UTC</div>
+      <button onclick="openModal('timeModal')" title="Zeit anpassen" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.8rem;padding:2px 6px;border-radius:4px;transition:0.2s;" onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--text3)'">✏️</button>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="status-dot"></span>
+    <span class="text-sm text-muted">SYSTEM AKTIV</span>
+    <button class="topbar-btn" onclick="showToast('✅ Alle Daten gesichert','green')">💾 Speichern</button>
+    <button class="topbar-btn" onclick="downloadApp()" style="background:var(--amber-dim);border-color:var(--amber);color:var(--amber);">⬇️ Datei speichern</button>
+    <button class="topbar-btn" onclick="openModal('exportModal')">📤 Export</button>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="nav-section">
+    <div class="nav-label">Übersicht</div>
+    <div class="nav-item active" onclick="showView('dashboard')">
+      <span class="nav-icon">📊</span> Dashboard
+    </div>
+    <div class="nav-item" onclick="showView('karte')">
+      <span class="nav-icon">🌍</span> Weltkarte
+    </div>
+    <div class="nav-item" onclick="showView('kalender')">
+      <span class="nav-icon">📅</span> Kalender
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Anforderungen</div>
+    <div class="nav-item" onclick="showView('bedarfsanforderung')">
+      <span class="nav-icon">📋</span> Bedarfsanforderung
+      <span class="nav-badge" id="bdBadge">3</span>
+    </div>
+    <div class="nav-item" onclick="showView('abteilungen')">
+      <span class="nav-icon">🏢</span> Abteilungen
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Einsatzphasen</div>
+    <div class="nav-item" onclick="showView('phase1')">
+      <span class="nav-icon">🚚</span> Phase 1 — Transit
+    </div>
+    <div class="nav-item" onclick="showView('phase2')">
+      <span class="nav-icon">🏕️</span> Phase 2 — Final Location
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Services</div>
+    <div class="nav-item" onclick="showView('services')">
+      <span class="nav-icon">⚙️</span> Service-Übersicht
+    </div>
+    <div class="nav-item" onclick="showView('personal')">
+      <span class="nav-icon">👥</span> Personal (20–1500)
+    </div>
+    <div class="nav-item" onclick="showView('transport')">
+      <span class="nav-icon">🚛</span> Transport & Flächen
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Verwaltung</div>
+    <div class="nav-item" onclick="showView('abrechnung')">
+      <span class="nav-icon">💰</span> Abrechnung
+    </div>
+    <div class="nav-item" onclick="showView('partner')">
+      <span class="nav-icon">🤝</span> Behörden / Partner
+    </div>
+    <div class="nav-item" onclick="showView('vorlagen')">
+      <span class="nav-icon">📄</span> Vorlagen & Dokumente
+    </div>
+    <div class="nav-item" onclick="showView('einstellungen')">
+      <span class="nav-icon">⚙️</span> Einstellungen
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ════════════════════════════════════════
+     DASHBOARD
+════════════════════════════════════════ -->
+<div class="view active" id="view-dashboard">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dashboard <span>Übersicht</span></div>
+      <div class="page-sub">Stand: <span id="dashDate">--</span> · 360° Global Operations</div>
+    </div>
+    <div class="flex gap8">
+      <button class="btn btn-ghost btn-sm" onclick="showView('bedarfsanforderung')">+ Neue Anforderung</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('alertModal')">🔔 Meldungen (2)</button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid-4 mb16">
+    <div class="kpi-card amber">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-label">Personal im Einsatz</div>
+      <div class="kpi-value" id="kpiPersonal">347</div>
+      <div class="kpi-sub">+42 geplant nächste 7 Tage</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-icon">🌍</div>
+      <div class="kpi-label">Aktive Standorte</div>
+      <div class="kpi-value" id="kpiStandorte">8</div>
+      <div class="kpi-sub">in 6 Ländern</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-icon">📋</div>
+      <div class="kpi-label">Offene Anforderungen</div>
+      <div class="kpi-value" id="kpiAnforderungen">12</div>
+      <div class="kpi-sub">3 dringend · 30-Tage-Vorlauf</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-icon">⚠️</div>
+      <div class="kpi-label">Offene Aktionen</div>
+      <div class="kpi-value" id="kpiAktionen">5</div>
+      <div class="kpi-sub">Freigaben erforderlich</div>
+    </div>
+  </div>
+
+  <div class="grid-21 mb16">
+    <!-- Aktive Einsätze -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Aktive Einsätze</div>
+        <div class="flex gap8">
+          <span class="badge badge-amber">Phase 1: 3</span>
+          <span class="badge badge-green">Phase 2: 5</span>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Einsatz-ID</th>
+              <th>Land / Standort</th>
+              <th>Phase</th>
+              <th>Personal</th>
+              <th>LKW/PKW</th>
+              <th>Status</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="einsatzTable">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Sidebar right -->
+    <div class="flex" style="flex-direction:column; gap:16px;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Abteilungen (30 Tage)</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div id="deptProgress"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Aktivitäten</div>
+        </div>
+        <div class="timeline" id="activityTimeline"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alerts -->
+  <div class="card">
+    <div class="card-header"><div class="card-title">⚠️ Aktuelle Hinweise</div></div>
+    <div id="dashAlerts"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     BEDARFSANFORDERUNG
+════════════════════════════════════════ -->
+<div class="view" id="view-bedarfsanforderung">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Bedarfs<span>anforderung</span></div>
+      <div class="page-sub">Vorlage für alle 5 Abteilungen · 30-Tage-Vorlauf</div>
+    </div>
+    <div class="flex gap8">
+      <button class="btn btn-ghost btn-sm" onclick="printForm()">🖨️ Drucken / PDF</button>
+      <button class="btn btn-primary" onclick="submitBedarfsanforderung()">✅ Einreichen</button>
+    </div>
+  </div>
+
+  <!-- Department selector -->
+  <div class="dept-tabs mb16" id="deptTabs">
+    <div class="dept-tab active" onclick="selectDept(this,'ABT-1')">ABT-1: Planung</div>
+    <div class="dept-tab" onclick="selectDept(this,'ABT-2')">ABT-2: Logistik</div>
+    <div class="dept-tab" onclick="selectDept(this,'ABT-3')">ABT-3: Technik</div>
+    <div class="dept-tab" onclick="selectDept(this,'ABT-4')">ABT-4: Infrastruktur</div>
+    <div class="dept-tab" onclick="selectDept(this,'ABT-5')">ABT-5: Support</div>
+  </div>
+
+  <!-- Step indicator -->
+  <div class="steps mb16">
+    <div class="step active" id="step1"><div class="step-num">1</div><div class="step-label">Stammdaten</div></div>
+    <div class="step-line" id="line12"></div>
+    <div class="step" id="step2"><div class="step-num">2</div><div class="step-label">Personal</div></div>
+    <div class="step-line" id="line23"></div>
+    <div class="step" id="step3"><div class="step-num">3</div><div class="step-label">Services</div></div>
+    <div class="step-line" id="line34"></div>
+    <div class="step" id="step4"><div class="step-num">4</div><div class="step-label">Transport</div></div>
+    <div class="step-line" id="line45"></div>
+    <div class="step" id="step5"><div class="step-num">5</div><div class="step-label">Freigabe</div></div>
+  </div>
+
+  <div id="formStep1">
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Stammdaten</div></div>
+      <div class="form-group">
+        <label class="form-label">Anforderungs-ID</label>
+        <input class="form-control" id="bdId" value="" placeholder="Wird automatisch vergeben" readonly style="color:var(--amber)">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Abteilung</label>
+          <select class="form-control" id="bdAbt">
+            <option>ABT-1: Planung</option>
+            <option>ABT-2: Logistik</option>
+            <option>ABT-3: Technik</option>
+            <option>ABT-4: Infrastruktur</option>
+            <option>ABT-5: Support</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Einsatz-Phase</label>
+          <select class="form-control" id="bdPhase">
+            <option value="1">Phase 1 — Transit</option>
+            <option value="2">Phase 2 — Final Location</option>
+            <option value="both">Phase 1 + 2</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Anforderungsdatum</label>
+          <input type="date" class="form-control" id="bdDatum">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Einsatzbeginn (geplant)</label>
+          <input type="date" class="form-control" id="bdBeginn">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Einsatzende (geplant)</label>
+          <input type="date" class="form-control" id="bdEnde">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priorität</label>
+          <select class="form-control" id="bdPrio">
+            <option>Normal</option>
+            <option>Erhöht</option>
+            <option>Dringend</option>
+            <option>Kritisch</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zielregion / Land</label>
+        <select class="form-control" id="bdLand">
+          <option>--- Europa ---</option>
+          <option>Deutschland</option>
+          <option>Frankreich</option>
+          <option>Polen</option>
+          <option>Niederlande</option>
+          <option>Belgien</option>
+          <option>Spanien</option>
+          <option>Italien</option>
+          <option>Schweden</option>
+          <option>Norwegen</option>
+          <option>Österreich</option>
+          <option>Schweiz</option>
+          <option>Tschechien</option>
+          <option>--- Global ---</option>
+          <option>USA</option>
+          <option>Kanada</option>
+          <option>VAE</option>
+          <option>Katar</option>
+          <option>Australien</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Genauer Standort / Adresse</label>
+        <input class="form-control" id="bdStandort" placeholder="Straße, Stadt, Koordinaten...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Einsatzbeschreibung</label>
+        <textarea class="form-control" id="bdBeschreibung" rows="3" placeholder="Kurze Beschreibung des Einsatzzwecks..."></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Ansprechpartner</div></div>
+      <div class="form-group">
+        <label class="form-label">Anfordernder (Name)</label>
+        <input class="form-control" id="bdAnforderer" placeholder="Vor- und Nachname">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Telefon</label>
+          <input class="form-control" id="bdTel" type="tel" placeholder="+49...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">E-Mail</label>
+          <input class="form-control" id="bdMail" type="email" placeholder="name@firma.de">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Einsatzleiter vor Ort</label>
+        <input class="form-control" id="bdLeiter" placeholder="Name des Einsatzleiters">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Kostenstellencode</label>
+        <input class="form-control" id="bdKosten" placeholder="KST-XXXX">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Budget (EUR)</label>
+        <input class="form-control" id="bdBudget" type="number" placeholder="0,00">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Staatliche Genehmigung / Behörde</label>
+        <input class="form-control" id="bdBehoerde" placeholder="Name der Behörde, Aktenzeichen">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sicherheitsklassifizierung</label>
+        <select class="form-control" id="bdSicherheit">
+          <option>OFFEN</option>
+          <option>VS-NfD</option>
+          <option>VERTRAULICH</option>
+          <option>GEHEIM</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bemerkungen / Besonderheiten</label>
+        <textarea class="form-control" id="bdBemerkung" rows="3" placeholder="Besondere Anforderungen, Einschränkungen..."></textarea>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="formStep2" style="display:none">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Personalplanung</div>
+      <button class="btn btn-ghost btn-sm" onclick="addPersonRow()">+ Person hinzufügen</button>
+    </div>
+    <div class="alert alert-amber">⚠️ Kapazitätsbereich: 20 bis 5.000 Mitarbeiter</div>
+
+    <!-- Einzelpersonen-Tabelle -->
+    <div class="mb16">
+      <div class="card-title mb8" style="margin-bottom:10px;">Personenliste</div>
+      <div class="table-wrap">
+        <table id="personTable">
+          <thead>
+            <tr>
+              <th>Nachname</th>
+              <th>Vorname</th>
+              <th>Personal-ID</th>
+              <th>Abteilung</th>
+              <th>Funktion</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="personTableBody">
+            <tr>
+              <td><input class="form-control" placeholder="Mustermann" style="min-width:120px"></td>
+              <td><input class="form-control" placeholder="Hans" style="min-width:100px"></td>
+              <td><input class="form-control" placeholder="P-0001" style="min-width:90px"></td>
+              <td><select class="form-control" style="min-width:130px">
+                <option>ABT-1: Planung</option><option>ABT-2: Logistik</option>
+                <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
+              </select></td>
+              <td><input class="form-control" placeholder="Techniker" style="min-width:110px"></td>
+              <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr class="separator">
+    <div class="card-title mb8">Gesamtkapazität</div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Gesamte Mitarbeiteranzahl</label>
+        <div class="slider-wrap">
+          <input type="range" min="20" max="5000" value="50" id="personalSlider" oninput="updatePersonalSlider()">
+          <span class="slider-val" id="personalVal">50</span>
+        </div>
+        <input type="number" class="form-control mt8" id="personalInput" value="50" min="20" max="5000" oninput="syncPersonalInput()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Davon Phase 1 (Transit)</label>
+        <input type="number" class="form-control" id="pers1" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Davon Phase 2 (Final Location)</label>
+        <input type="number" class="form-control" id="pers2" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Offiziere / Führungspersonal</label>
+        <input type="number" class="form-control" id="persOff" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Technisches Personal</label>
+        <input type="number" class="form-control" id="persTech" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unterstützungspersonal</label>
+        <input type="number" class="form-control" id="persSupp" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Unterkunftstyp</label>
+        <select class="form-control" id="unterkunftTyp">
+          <option>Hotel (Standard)</option>
+          <option>Hotel (Business)</option>
+          <option>Feldlager / Zelt</option>
+          <option>Modulare Gebäude</option>
+          <option>Kaserne / Quartier</option>
+          <option>Mischbelegung</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zimmertyp</label>
+        <select class="form-control" id="zimmerTyp">
+          <option>Einzelzimmer</option>
+          <option>Doppelzimmer</option>
+          <option>Mehrbettzimmer (4er)</option>
+          <option>Mehrbettzimmer (6er)</option>
+          <option>Gemischt</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Besondere Anforderungen (Medizin / Diät)</label>
+        <textarea class="form-control" rows="2" id="persSpecial" placeholder="z.B. Vegetarisch, Diabetiker, Rollstuhlfahrer..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sicherheitspersonal erforderlich?</label>
+        <select class="form-control" id="persSecurity">
+          <option>Nein</option>
+          <option>Ja — Bewachung Unterkunft</option>
+          <option>Ja — Personenschutz</option>
+          <option>Ja — Beides</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="formStep3" style="display:none">
+  <div class="card">
+    <div class="card-header"><div class="card-title">Services & Versorgung</div></div>
+    <div class="grid-2">
+      <div>
+        <div class="form-group">
+          <label class="form-label">🍽️ Verpflegung</label>
+          <select class="form-control" id="srvVerpflegung">
+            <option>Vollverpflegung (3 Mahlzeiten)</option>
+            <option>Halbpension</option>
+            <option>Selbstversorgung mit Küchenausstattung</option>
+            <option>Fertigpackungen / Feldration</option>
+            <option>Keine</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mahlzeiten / Tag</label>
+          <select class="form-control" id="srvMahlzeiten">
+            <option>3 (Frühstück, Mittagessen, Abendessen)</option>
+            <option>2 (Frühstück + Mittagessen)</option>
+            <option>2 (Mittagessen + Abendessen)</option>
+            <option>1 Mahlzeit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🧺 Wäscheservice</label>
+          <select class="form-control" id="srvWaesche">
+            <option>Täglich</option>
+            <option>2x pro Woche</option>
+            <option>Wöchentlich</option>
+            <option>Nicht erforderlich</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🚽 Sanitäranlagen</label>
+          <select class="form-control" id="srvSanitaer">
+            <option>Vorhandene Infrastruktur nutzen</option>
+            <option>Mobile Toilettenanlage</option>
+            <option>Sanitärcontainer aufstellen</option>
+            <option>Kombination</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Toiletten-Einheiten (Anzahl)</label>
+          <input type="number" class="form-control" id="srvToiletten" value="0" min="0">
+        </div>
+      </div>
+      <div>
+        <div class="form-group">
+          <label class="form-label">🗑️ Abfallentsorgung</label>
+          <select class="form-control" id="srvAbfall">
+            <option>Standard (wöchentlich)</option>
+            <option>Erhöhter Bedarf (täglich)</option>
+            <option>Gefahrgut-Entsorgung erforderlich</option>
+            <option>Getrennte Entsorgung (Recycling)</option>
+            <option>Keine / Selbst organisiert</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">🌐 IT & Kommunikation</label>
+          <select class="form-control" id="srvIT" multiple style="height:96px">
+            <option selected>WLAN-Internetzugang</option>
+            <option>LAN-Festnetz</option>
+            <option>Satelliten-Kommunikation</option>
+            <option>Verschlüsseltes VPN</option>
+            <option>Bürotelefon / Festnetz</option>
+            <option>Videokonferenzsystem</option>
+            <option>Drucker / Scanner</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bandbreite (Mbit/s)</label>
+          <input type="number" class="form-control" id="srvBandbreite" placeholder="z.B. 100">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Weitere Services</label>
+          <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+              <input type="checkbox" id="srvMedizin"> Medizinische Versorgung / Sanitätsdienst
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+              <input type="checkbox" id="srvWaffe"> Waffenlagerung / Munitionsraum
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+              <input type="checkbox" id="srvKraftwerk"> Notstromversorgung
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; cursor:pointer;">
+              <input type="checkbox" id="srvFreizeit"> Freizeiteinrichtung
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="formStep4" style="display:none">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Transport & Fahrzeuge</div>
+      <button class="btn btn-ghost btn-sm" onclick="addFahrzeugRow()">+ Fahrzeug hinzufügen</button>
+    </div>
+
+    <!-- Fahrzeug-Tabelle: Kennzeichen + Typ korrespondieren -->
+    <div class="mb16">
+      <div class="table-wrap">
+        <table id="fahrzeugTable">
+          <thead>
+            <tr>
+              <th>Fahrzeug-Kategorie</th>
+              <th>Kennzeichen</th>
+              <th>Typ / Modell</th>
+              <th>Zuladung / Kapazität</th>
+              <th>Abstellfläche (m²)</th>
+              <th>Gefahrgut (ADR)</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="fahrzeugTableBody">
+            <tr>
+              <td><select class="form-control" style="min-width:130px" onchange="updateFahrzeugTyp(this)">
+                <option value="lkw">🚛 LKW</option>
+                <option value="pkw">🚗 PKW</option>
+                <option value="bus">🚌 Bus</option>
+                <option value="container">📦 Container</option>
+                <option value="transporter">🚐 Transporter</option>
+              </select></td>
+              <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td>
+              <td><select class="form-control fz-typ-select" style="min-width:160px">
+                <option>Standard-LKW (7,5t)</option>
+                <option>Schwerlast-LKW (40t)</option>
+                <option>Kühlfahrzeug</option>
+                <option>Tankfahrzeug</option>
+              </select></td>
+              <td><input class="form-control" placeholder="z.B. 40t / 9 Pax" style="min-width:110px"></td>
+              <td><input class="form-control" type="number" placeholder="56" style="min-width:80px" oninput="updateGesamtflaeche()"></td>
+              <td><select class="form-control" style="min-width:120px">
+                <option>Kein ADR</option>
+                <option>ADR Klasse 1</option>
+                <option>ADR Klasse 2</option>
+                <option>ADR Klasse 3</option>
+                <option>ADR Klasse 7</option>
+              </select></td>
+              <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex items-center gap12 mt12" style="padding:10px; background:var(--bg3); border-radius:var(--radius); border:1px solid var(--border);">
+        <span class="text-sm text-muted">Gesamte Abstellfläche:</span>
+        <span class="font-mono text-amber fw7" id="gesamtFlaeche">0 m²</span>
+        <span class="text-sm text-muted" style="margin-left:auto">Fahrzeuge gesamt:</span>
+        <span class="font-mono text-amber fw7" id="fahrzeugCount">1</span>
+      </div>
+    </div>
+
+    <hr class="separator">
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Transfer-Typ</label>
+        <select class="form-control" id="tTransfer">
+          <option>Eigentransport</option>
+          <option>Charterprovider</option>
+          <option>Linienflug + Bodentransport</option>
+          <option>Seeweg + Bodentransport</option>
+          <option>Bahn + Bodentransport</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Container (Anzahl zusätzlich)</label>
+        <input type="number" class="form-control" id="tContainer" value="0" min="0">
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="formStep5" style="display:none">
+  <div class="card">
+    <div class="card-header"><div class="card-title">Zusammenfassung & Freigabe</div></div>
+    <div id="summaryContent" class="font-mono text-sm" style="white-space:pre-line; color:var(--text2); line-height:1.8;">
+      Bitte alle vorherigen Schritte ausfüllen...
+    </div>
+    <hr class="separator">
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Unterschrift Anforderer</label>
+        <input class="form-control" placeholder="Digitale Bestätigung: Name eingeben">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Freigabe durch (Vorgesetzter)</label>
+        <input class="form-control" placeholder="Name Vorgesetzter">
+      </div>
+    </div>
+    <div class="alert alert-amber mt12">📋 Diese Anforderung wird nach Einreichung automatisch an die OPS360-Zentrale sowie die zuständige Behörde weitergeleitet.</div>
+  </div>
+  </div>
+
+  <!-- Form Navigation -->
+  <div class="flex justify-between mt16 no-print">
+    <button class="btn btn-ghost" id="prevStepBtn" onclick="prevStep()" style="visibility:hidden">◀ Zurück</button>
+    <div class="text-muted text-sm" id="stepLabel">Schritt 1 von 5</div>
+    <button class="btn btn-primary" id="nextStepBtn" onclick="nextStep()">Weiter ▶</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PHASE 1 — TRANSIT
+════════════════════════════════════════ -->
+<div class="view" id="view-phase1">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Phase 1 — <span>Transit</span></div>
+      <div class="page-sub">Personal- & Materialtransit · Hin- und Rückverlegung</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('newTransitModal')">+ Neuer Transit</button>
+  </div>
+  <div class="grid-4 mb16">
+    <div class="kpi-card amber">
+      <div class="kpi-label">Aktive Transits</div>
+      <div class="kpi-value">7</div>
+      <div class="kpi-sub">3 Hinverlegung · 4 Rückverlegung</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Personal im Transit</div>
+      <div class="kpi-value">128</div>
+      <div class="kpi-sub">in Bewegung</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Fahrzeuge im Transit</div>
+      <div class="kpi-value">34</div>
+      <div class="kpi-sub">LKW + PKW</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Verzögerungen</div>
+      <div class="kpi-value">2</div>
+      <div class="kpi-sub">Grenzabfertigung ausstehend</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Transit-Übersicht</div>
+      <div class="flex gap8">
+        <select class="form-control" style="width:auto; padding:5px 10px; font-size:0.8rem;">
+          <option>Alle Richtungen</option>
+          <option>Hinverlegung</option>
+          <option>Rückverlegung</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Transit-ID</th>
+            <th>Von → Nach</th>
+            <th>Typ</th>
+            <th>Personal</th>
+            <th>Material / Fahrzeuge</th>
+            <th>Abfahrt</th>
+            <th>ETA</th>
+            <th>Grenzübergang</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="transitTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid-2 mt16">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Checkliste — Hinverlegung</div></div>
+      <div id="checklistHin"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Checkliste — Rückverlegung</div></div>
+      <div id="checklistRueck"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PHASE 2 — FINAL LOCATION
+════════════════════════════════════════ -->
+<div class="view" id="view-phase2">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Phase 2 — <span>Final Location</span></div>
+      <div class="page-sub">Unterstützung am Einsatzort · Vollservice</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('newLocationModal')">+ Standort hinzufügen</button>
+  </div>
+  <div class="grid-3 mb16" id="locationCards">
+    <!-- filled by JS -->
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Service-Status aller Standorte</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Standort</th>
+            <th>Land</th>
+            <th>Personal</th>
+            <th>Unterkunft</th>
+            <th>Verpflegung</th>
+            <th>Wäsche</th>
+            <th>Sanitär</th>
+            <th>IT</th>
+            <th>Abfall</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="locationTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SERVICES
+════════════════════════════════════════ -->
+<div class="view" id="view-services">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Service<span>übersicht</span></div>
+      <div class="page-sub">Alle aktiven Dienstleistungen · Global</div>
+    </div>
+  </div>
+  <div class="grid-4 mb16" id="serviceCards">
+    <!-- filled by JS -->
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">SLA-Status</div></div>
+      <div id="slaTable"></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Anbieter / Dienstleister</div></div>
+      <div id="providerTable"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PERSONAL
+════════════════════════════════════════ -->
+<div class="view" id="view-personal">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Personal<span>verwaltung</span></div>
+      <div class="page-sub">20 bis 5.000 Mitarbeiter · Globale Kapazität</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('importPersonalModal')">📥 Import / Masseneintrag</button>
+  </div>
+  <div class="grid-4 mb16">
+    <div class="kpi-card amber">
+      <div class="kpi-label">Gesamt im Einsatz</div>
+      <div class="kpi-value">347</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Untergebracht</div>
+      <div class="kpi-value">302</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Im Transit</div>
+      <div class="kpi-value">28</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Ausstehend</div>
+      <div class="kpi-value">17</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Mitarbeiterliste</div>
+      <input class="form-control" style="width:220px" placeholder="🔍 Suchen..." oninput="filterPersonal(this.value)">
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Abteilung</th>
+            <th>Standort</th>
+            <th>Phase</th>
+            <th>Unterkunft</th>
+            <th>Status</th>
+            <th>Check-in</th>
+            <th>Check-out</th>
+          </tr>
+        </thead>
+        <tbody id="personalTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     TRANSPORT
+════════════════════════════════════════ -->
+<div class="view" id="view-transport">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Transport &amp; <span>Flächen</span></div>
+      <div class="page-sub">LKW · Container · PKW · Abstellflächen</div>
+    </div>
+  </div>
+  <div class="grid-4 mb16">
+    <div class="kpi-card amber">
+      <div class="kpi-label">LKW (aktiv)</div>
+      <div class="kpi-value">23</div>
+      <div class="kpi-sub">Geplant: +8</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Container (gesamt)</div>
+      <div class="kpi-value">47</div>
+      <div class="kpi-sub">12 Büro · 35 Standard</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">PKW / Busse</div>
+      <div class="kpi-value">61</div>
+      <div class="kpi-sub">inkl. 4 Minibus</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Abstellfläche (m²)</div>
+      <div class="kpi-value">8.420</div>
+      <div class="kpi-sub">78% belegt</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Fahrzeug- & Container-Übersicht</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kennzeichen / ID</th>
+            <th>Typ</th>
+            <th>Standort</th>
+            <th>Einsatz</th>
+            <th>Abstellfläche (m²)</th>
+            <th>Ladung</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="transportTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ABRECHNUNG
+════════════════════════════════════════ -->
+<div class="view" id="view-abrechnung">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Ab<span>rechnung</span></div>
+      <div class="page-sub">Rechnungsstellung · Behörden · Kostenstellen</div>
+    </div>
+    <div class="flex gap8">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('exportModal')">📊 Export</button>
+      <button class="btn btn-primary" onclick="openModal('newRechnungModal')">+ Rechnung erstellen</button>
+    </div>
+  </div>
+  <div class="grid-4 mb16">
+    <div class="kpi-card amber">
+      <div class="kpi-label">Offen (gesamt)</div>
+      <div class="kpi-value">€ 2,4M</div>
+      <div class="kpi-sub">8 ausstehende Rechnungen</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Bezahlt (Monat)</div>
+      <div class="kpi-value">€ 1,1M</div>
+      <div class="kpi-sub">5 beglichen</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Budget (gesamt)</div>
+      <div class="kpi-value">€ 8,5M</div>
+      <div class="kpi-sub">Auslastung 42%</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Überfällig</div>
+      <div class="kpi-value">€ 340K</div>
+      <div class="kpi-sub">2 Rechnungen > 30 Tage</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Rechnungsübersicht</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Rechnungs-Nr.</th>
+            <th>Empfänger / Behörde</th>
+            <th>Einsatz</th>
+            <th>Leistungszeitraum</th>
+            <th>Betrag (EUR)</th>
+            <th>Fällig am</th>
+            <th>Status</th>
+            <th>Aktionen</th>
+          </tr>
+        </thead>
+        <tbody id="rechnungTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PARTNER / BEHÖRDEN
+════════════════════════════════════════ -->
+<div class="view" id="view-partner">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Behörden &amp; <span>Partner</span></div>
+      <div class="page-sub">Staatliche Stellen · Dienstleister · Koordination</div>
+    </div>
+    <button class="btn btn-primary" onclick="openModal('newPartnerModal')">+ Partner hinzufügen</button>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Partnerdatenbank</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Land</th>
+            <th>Typ</th>
+            <th>Ansprechpartner</th>
+            <th>Telefon</th>
+            <th>E-Mail</th>
+            <th>Aktive Einsätze</th>
+            <th>Vereinbarung bis</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="partnerTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     VORLAGEN
+════════════════════════════════════════ -->
+<div class="view" id="view-vorlagen">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Vorlagen &amp; <span>Dokumente</span></div>
+      <div class="page-sub">Standarddokumente · Formulare · Checklisten</div>
+    </div>
+  </div>
+  <div class="grid-3" id="vorlagenGrid">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     ABTEILUNGEN
+════════════════════════════════════════ -->
+<div class="view" id="view-abteilungen">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Ab<span>teilungen</span></div>
+      <div class="page-sub">5 eigenständige Einheiten · Bedarfsübermittlung</div>
+    </div>
+  </div>
+  <div class="grid-3" id="abteilungCards">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     KARTE
+════════════════════════════════════════ -->
+<div class="view" id="view-karte">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Welt<span>karte</span></div>
+      <div class="page-sub">360° — Globale Einsatzübersicht</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="world-map" id="worldMap">
+      <div style="text-align:center; color:var(--text3);">
+        <div style="font-size:3rem; margin-bottom:8px;">🌍</div>
+        <div class="font-cond" style="font-size:1.2rem; letter-spacing:2px;">INTERAKTIVE KARTE</div>
+        <div class="text-sm mt8">Für die Produktionsversion: OpenStreetMap / Mapbox API integrieren</div>
+      </div>
+      <!-- Static location dots -->
+      <div class="map-dot" style="left:49%; top:38%;"></div>
+      <div style="position:absolute;left:49%;top:42%" class="map-label">DE — Berlin</div>
+      <div class="map-dot" style="left:47%; top:40%; background:var(--green); box-shadow:0 0 12px var(--green);"></div>
+      <div class="map-dot" style="left:52%; top:37%; background:var(--blue); box-shadow:0 0 12px var(--blue);"></div>
+      <div class="map-dot" style="left:51%; top:42%; background:var(--amber);"></div>
+      <div class="map-dot" style="left:24%; top:42%; background:var(--cyan); box-shadow:0 0 12px var(--cyan);"></div>
+    </div>
+  </div>
+  <div class="grid-3 mt16" id="mapLegend">
+    <div class="card">
+      <div class="card-title mb8">🟡 Amber — Transit aktiv (Phase 1)</div>
+      <div class="text-sm text-muted">3 Standorte mit laufenden Transporten</div>
+    </div>
+    <div class="card">
+      <div class="card-title mb8">🟢 Grün — Final Location (Phase 2)</div>
+      <div class="text-sm text-muted">5 Standorte in Vollbetrieb</div>
+    </div>
+    <div class="card">
+      <div class="card-title mb8">🔵 Blau — Geplant (30-Tage-Vorlauf)</div>
+      <div class="text-sm text-muted">4 Einsätze in Planung</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     KALENDER
+════════════════════════════════════════ -->
+<div class="view" id="view-kalender">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Einsatz<span>kalender</span></div>
+      <div class="page-sub">30-Tage-Planung · Alle Abteilungen</div>
+    </div>
+  </div>
+  <div class="card mb16">
+    <div class="card-header">
+      <div class="card-title">Nächste 30 Tage</div>
+      <div class="flex gap8">
+        <button class="btn btn-ghost btn-sm">◀</button>
+        <button class="btn btn-ghost btn-sm">▶</button>
+      </div>
+    </div>
+    <div class="cal-strip" id="calStrip"></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Geplante Ereignisse</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Datum</th>
+            <th>Ereignis</th>
+            <th>Abteilung</th>
+            <th>Land</th>
+            <th>Personal</th>
+            <th>Typ</th>
+          </tr>
+        </thead>
+        <tbody id="kalenderTable">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     EINSTELLUNGEN
+════════════════════════════════════════ -->
+<div class="view" id="view-einstellungen">
+  <div class="page-header">
+    <div><div class="page-title">Ein<span>stellungen</span></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Organisation</div></div>
+      <div class="form-group">
+        <label class="form-label">Unternehmensname</label>
+        <input class="form-control" value="Musterfirma AG" id="settCompany">
+      </div>
+      <div class="form-group">
+        <label class="form-label">OPS-Leiter</label>
+        <input class="form-control" id="settOpsLeiter" placeholder="Name des OPS-Leiters">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Vorlauf-Standard (Tage)</label>
+          <input class="form-control" type="number" value="30" id="settVorlauf">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Standardwährung</label>
+          <select class="form-control" id="settWaehrung">
+            <option>EUR</option><option>USD</option><option>GBP</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary mt8" onclick="showToast('✅ Einstellungen gespeichert','green')">Speichern</button>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Abteilungen konfigurieren</div></div>
+      <div id="deptConfig"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ════════════════════════════════════════
+     MODALS
+════════════════════════════════════════ -->
+
+<!-- ALERT MODAL -->
+<div class="modal-overlay" id="alertModal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <div class="modal-title">🔔 Aktuelle Meldungen</div>
+      <button class="modal-close" onclick="closeModal('alertModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-red">🚨 <strong>Grenzübergang Kehl (DE→FR)</strong> — Verzögerung 4h. Transit TRN-007 betroffen.</div>
+      <div class="alert alert-amber">⚠️ <strong>ABT-3 Anforderung fehlt</strong> — Vorlauf unterschritten. 28 Tage verbleibend.</div>
+      <div class="alert alert-green">✅ <strong>Rechnung RG-2024-041</strong> — Zahlung durch Behörde Frankreich bestätigt.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('alertModal')">Schließen</button>
+      <button class="btn btn-primary">Alle bestätigen</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="exportModal">
+  <div class="modal" style="max-width:460px">
+    <div class="modal-header">
+      <div class="modal-title">📤 Export</div>
+      <button class="modal-close" onclick="closeModal('exportModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Exportformat</label>
+        <select class="form-control">
+          <option>Excel (.xlsx)</option>
+          <option>CSV</option>
+          <option>PDF-Bericht</option>
+          <option>Word-Dokument (.docx)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zeitraum</label>
+        <div class="form-row">
+          <input type="date" class="form-control">
+          <input type="date" class="form-control">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Inhalte</label>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><input type="checkbox" checked> Bedarfsanforderungen</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><input type="checkbox" checked> Personal</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><input type="checkbox" checked> Abrechnung</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:0.85rem"><input type="checkbox"> Transit-Details</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('exportModal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="showToast('📥 Export wird erstellt...','amber'); closeModal('exportModal')">Export starten</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW TRANSIT MODAL -->
+<div class="modal-overlay" id="newTransitModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">+ Neuer Transit (Phase 1)</div>
+      <button class="modal-close" onclick="closeModal('newTransitModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Von (Start)</label><input class="form-control" placeholder="Land / Ort"></div>
+        <div class="form-group"><label class="form-label">Nach (Ziel)</label><input class="form-control" placeholder="Land / Ort"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Richtung</label>
+          <select class="form-control"><option>Hinverlegung</option><option>Rückverlegung</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Abteilung</label>
+          <select class="form-control">
+            <option>ABT-1: Planung</option><option>ABT-2: Logistik</option><option>ABT-3: Technik</option>
+            <option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Abfahrtsdatum</label><input type="date" class="form-control"></div>
+        <div class="form-group"><label class="form-label">ETA (Ankunft)</label><input type="date" class="form-control"></div>
+      </div>
+      <div class="form-row-3">
+        <div class="form-group"><label class="form-label">Personen</label><input type="number" class="form-control" value="0"></div>
+        <div class="form-group"><label class="form-label">LKW</label><input type="number" class="form-control" value="0"></div>
+        <div class="form-group"><label class="form-label">PKW</label><input type="number" class="form-control" value="0"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Grenzübergangspunkt</label><input class="form-control" placeholder="Name/Lage des Grenzübergangs"></div>
+      <div class="form-group"><label class="form-label">Behörde (Zielland)</label><input class="form-control" placeholder="Staatliche Stelle"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('newTransitModal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveTransit()">Transit anlegen</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW RECHNUNG MODAL -->
+<div class="modal-overlay" id="newRechnungModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">+ Neue Rechnung</div>
+      <button class="modal-close" onclick="closeModal('newRechnungModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Empfänger / Behörde</label><input class="form-control" placeholder="Name der Behörde"></div>
+        <div class="form-group"><label class="form-label">Bezug / Einsatz-ID</label><input class="form-control" placeholder="EIN-XXX"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Leistungszeitraum Von</label><input type="date" class="form-control"></div>
+        <div class="form-group"><label class="form-label">Leistungszeitraum Bis</label><input type="date" class="form-control"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Rechnungsbetrag (EUR netto)</label><input type="number" class="form-control" placeholder="0,00"></div>
+        <div class="form-group"><label class="form-label">MwSt. %</label><select class="form-control"><option>0%</option><option>7%</option><option selected>19%</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Leistungsbeschreibung</label><textarea class="form-control" rows="3" placeholder="Unterkunft, Verpflegung, Transport..."></textarea></div>
+      <div class="form-group"><label class="form-label">Zahlungsziel (Tage)</label><input type="number" class="form-control" value="30"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('newRechnungModal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="saveRechnung()">Rechnung erstellen</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT PERSONAL MODAL -->
+<div class="modal-overlay" id="importPersonalModal">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-header">
+      <div class="modal-title">📥 Personal importieren</div>
+      <button class="modal-close" onclick="closeModal('importPersonalModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-amber">Massenimport über CSV oder Excel. Vorlage unten herunterladen.</div>
+      <div class="form-group"><label class="form-label">Datei auswählen</label>
+        <input type="file" class="form-control" accept=".csv,.xlsx">
+      </div>
+      <div class="form-group"><label class="form-label">Ziel-Abteilung</label>
+        <select class="form-control"><option>Alle / Gemischt</option><option>ABT-1</option><option>ABT-2</option><option>ABT-3</option><option>ABT-4</option><option>ABT-5</option></select>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="showToast('📥 Vorlage wird heruntergeladen...','blue')">⬇️ Import-Vorlage herunterladen</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('importPersonalModal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="showToast('✅ Import erfolgreich','green'); closeModal('importPersonalModal')">Importieren</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- TIME ADJUST MODAL -->
+<div class="modal-overlay" id="timeModal">
+  <div class="modal" style="max-width:400px">
+    <div class="modal-header">
+      <div class="modal-title">⏱️ Zeit anpassen</div>
+      <button class="modal-close" onclick="closeModal('timeModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-amber" style="margin-bottom:16px;">Manuelle Zeitanpassung — z.B. für andere Zeitzonen oder simulierte Zeitpunkte.</div>
+      <div class="form-group">
+        <label class="form-label">Modus</label>
+        <div style="display:flex;gap:10px;margin-top:4px;">
+          <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;">
+            <input type="radio" name="timeModus" value="auto" id="modeAuto" checked onchange="toggleTimeMode()"> Automatisch (Systemzeit)
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;">
+            <input type="radio" name="timeModus" value="manual" id="modeManual" onchange="toggleTimeMode()"> Manuell
+          </label>
+        </div>
+      </div>
+      <div id="manualTimeFields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Datum</label>
+            <input type="date" class="form-control" id="manualDate">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Uhrzeit (UTC)</label>
+            <input type="time" class="form-control" id="manualTime" step="1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zeitzone</label>
+          <select class="form-control" id="manualTZ">
+            <option value="0">UTC+0 (London)</option>
+            <option value="1" selected>UTC+1 (Berlin, Paris, Rom)</option>
+            <option value="2">UTC+2 (Helsinki, Kiew)</option>
+            <option value="3">UTC+3 (Moskau, Istanbul)</option>
+            <option value="-5">UTC-5 (New York)</option>
+            <option value="-6">UTC-6 (Chicago)</option>
+            <option value="-8">UTC-8 (Los Angeles)</option>
+            <option value="4">UTC+4 (Dubai)</option>
+            <option value="5.5">UTC+5:30 (Indien)</option>
+            <option value="8">UTC+8 (Singapur, China)</option>
+            <option value="9">UTC+9 (Tokio)</option>
+            <option value="10">UTC+10 (Sydney)</option>
+          </select>
+        </div>
+        <div style="padding:10px;background:var(--bg3);border-radius:var(--radius);border:1px solid var(--border);text-align:center;">
+          <div class="text-xs text-muted mb8">Vorschau</div>
+          <div class="font-mono text-amber" id="timePreview" style="font-size:1.2rem;">--:--:--</div>
+          <div class="text-xs text-muted" id="datePreview" style="margin-top:4px;">--</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="resetTime()">↺ Zurücksetzen</button>
+      <button class="btn btn-ghost" onclick="closeModal('timeModal')">Abbrechen</button>
+      <button class="btn btn-primary" onclick="applyTime()">✅ Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- SAVE / FALLBACK MODAL -->
+<div class="modal-overlay" id="saveModal">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <div class="modal-title">💾 App speichern — iOS</div>
+      <button class="modal-close" onclick="closeModal('saveModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-amber" style="margin-bottom:16px;">
+        ℹ️ <strong>So speicherst du die App auf dem iPad:</strong>
+      </div>
+
+      <!-- Methode 1 -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
+        <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--amber);">Methode 1 — Empfohlen</div>
+        <div class="text-sm" style="line-height:1.8;">
+          1. Tippe auf <strong>„Neuen Tab öffnen"</strong> unten<br>
+          2. Im neuen Tab: Tippe auf das <strong>Teilen-Symbol ↑</strong> oben in Safari<br>
+          3. Wähle <strong>„In Dateien sichern"</strong><br>
+          4. Speicherort wählen → <strong>Sichern</strong>
+        </div>
+        <button class="btn btn-primary mt12" onclick="openInNewTab()">🔗 Neuen Tab öffnen</button>
+      </div>
+
+      <!-- Methode 2 -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
+        <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--text2);">Methode 2 — Code kopieren</div>
+        <div class="text-sm text-muted" style="margin-bottom:10px;">Kompletten Code kopieren → In Texteditor (z.B. Notizen) einfügen → Als .html speichern</div>
+        <textarea id="saveContent" class="form-control" rows="4" readonly style="font-size:0.65rem;font-family:monospace;resize:none;"></textarea>
+        <button class="btn btn-outline mt8" onclick="copySaveContent()">📋 Code kopieren</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('saveModal')">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toasts"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+const depts = [
+  { id:'ABT-1', name:'Planung', color:'amber', requests:4, lead:'Maj. Klein' },
+  { id:'ABT-2', name:'Logistik', color:'blue', requests:3, lead:'Hptm. Weber' },
+  { id:'ABT-3', name:'Technik', color:'green', requests:5, lead:'OFw. Fischer' },
+  { id:'ABT-4', name:'Infrastruktur', color:'red', requests:2, lead:'OF. Müller' },
+  { id:'ABT-5', name:'Support', color:'amber', requests:1, lead:'Fw. Bauer' },
+];
+
+const einsaetze = [
+  { id:'EIN-001', land:'🇩🇪 Deutschland', standort:'Berlin-Tegel', phase:1, pers:45, fahrzeuge:'8 LKW / 12 PKW', status:'transit', statusLabel:'Im Transit' },
+  { id:'EIN-002', land:'🇫🇷 Frankreich', standort:'Lyon-Est', phase:2, pers:180, fahrzeuge:'15 LKW / 22 PKW', status:'aktiv', statusLabel:'Aktiv' },
+  { id:'EIN-003', land:'🇵🇱 Polen', standort:'Warschau-Süd', phase:2, pers:120, fahrzeuge:'10 LKW / 18 PKW', status:'aktiv', statusLabel:'Aktiv' },
+  { id:'EIN-004', land:'🇳🇱 Niederlande', standort:'Rotterdam', phase:1, pers:22, fahrzeuge:'4 LKW / 5 PKW', status:'geplant', statusLabel:'Geplant' },
+  { id:'EIN-005', land:'🇧🇪 Belgien', standort:'Brüssel', phase:2, pers:65, fahrzeuge:'6 LKW / 9 PKW', status:'aktiv', statusLabel:'Aktiv' },
+];
+
+const transits = [
+  { id:'TRN-001', von:'Berlin', nach:'Paris', typ:'Hinverlegung', pers:28, material:'4 LKW', abfahrt:'2026-03-01', eta:'2026-03-03', grenze:'Kehl', status:'aktiv' },
+  { id:'TRN-002', von:'München', nach:'Wien', typ:'Rückverlegung', pers:14, material:'2 LKW', abfahrt:'2026-03-02', eta:'2026-03-02', grenze:'Salzburg', status:'abgeschlossen' },
+  { id:'TRN-003', von:'Hamburg', nach:'Warschau', typ:'Hinverlegung', pers:45, material:'8 LKW + 3 Container', abfahrt:'2026-03-05', eta:'2026-03-07', grenze:'Frankfurt/Oder', status:'geplant' },
+  { id:'TRN-004', von:'Köln', nach:'Brüssel', typ:'Hinverlegung', pers:18, material:'2 LKW', abfahrt:'2026-02-28', eta:'2026-02-28', grenze:'Aachen', status:'verzögert' },
+];
+
+const locations = [
+  { id:'LOC-001', name:'Camp Lyon-Est', land:'🇫🇷 FR', pers:180, unterkunft:'Hotel', verpf:'✅', waesche:'✅', sanitaer:'✅', it:'✅', abfall:'✅', status:'aktiv' },
+  { id:'LOC-002', name:'Lager Warschau', land:'🇵🇱 PL', pers:120, unterkunft:'Container', verpf:'✅', waesche:'⚠️', sanitaer:'✅', it:'✅', abfall:'✅', status:'aktiv' },
+  { id:'LOC-003', name:'Basis Brüssel', land:'🇧🇪 BE', pers:65, unterkunft:'Hotel', verpf:'✅', waesche:'✅', sanitaer:'✅', it:'✅', abfall:'⚠️', status:'aktiv' },
+];
+
+const personal = [
+  { id:'P-001', name:'Müller, Hans', abt:'ABT-1', standort:'Lyon-Est', phase:2, unterkunft:'Hotel Ibis 204', status:'Aktiv', ein:'2026-02-15', aus:'2026-04-15' },
+  { id:'P-002', name:'Schmidt, Anna', abt:'ABT-2', standort:'Warschau', phase:2, unterkunft:'Container C-12', status:'Aktiv', ein:'2026-02-20', aus:'2026-03-20' },
+  { id:'P-003', name:'Fischer, Klaus', abt:'ABT-3', standort:'Im Transit', phase:1, unterkunft:'TRN-001', status:'Transit', ein:'2026-03-01', aus:'2026-03-10' },
+  { id:'P-004', name:'Weber, Maria', abt:'ABT-1', standort:'Berlin', phase:1, unterkunft:'Holiday Inn 301', status:'Aktiv', ein:'2026-02-25', aus:'2026-03-05' },
+  { id:'P-005', name:'Bauer, Peter', abt:'ABT-5', standort:'Brüssel', phase:2, unterkunft:'NH Hotel 112', status:'Aktiv', ein:'2026-02-18', aus:'2026-03-18' },
+];
+
+const transporte = [
+  { id:'LKW-DE-001', typ:'LKW 40t', standort:'Lyon-Est', einsatz:'EIN-002', flaeche:56, ladung:'Material', status:'aktiv' },
+  { id:'CNT-FR-012', typ:'Container 20ft', standort:'Warschau', einsatz:'EIN-003', flaeche:14, ladung:'Büro', status:'aktiv' },
+  { id:'PKW-DE-045', typ:'PKW SUV', standort:'Im Transit', einsatz:'TRN-001', flaeche:6, ladung:'Personen', status:'transit' },
+  { id:'BUS-BE-003', typ:'Minibus 9-Sitz', standort:'Brüssel', einsatz:'EIN-005', flaeche:12, ladung:'Personen', status:'aktiv' },
+];
+
+const rechnungen = [
+  { nr:'RG-2026-001', empfaenger:'Ministerium Frankreich', einsatz:'EIN-002', zeitraum:'Feb 2026', betrag:'€ 320.000', faellig:'2026-03-28', status:'offen' },
+  { nr:'RG-2026-002', empfaenger:'Behörde Warschau', einsatz:'EIN-003', zeitraum:'Feb 2026', betrag:'€ 210.000', faellig:'2026-03-15', status:'bezahlt' },
+  { nr:'RG-2026-003', empfaenger:'Behörde Brüssel', einsatz:'EIN-005', zeitraum:'Jan 2026', betrag:'€ 95.000', faellig:'2026-02-01', status:'überfällig' },
+];
+
+const partner = [
+  { name:'Ministère des Armées', land:'🇫🇷 FR', typ:'Behörde', ap:'Col. Bernard Leclerc', tel:'+33 1 4205 xxxx', mail:'bernard.leclerc@defense.fr', einsaetze:2, bis:'2027-12-31', status:'aktiv' },
+  { name:'MON Polska', land:'🇵🇱 PL', typ:'Behörde', ap:'Gen. Andrzej Kowalski', tel:'+48 22 xxx xxxx', mail:'kowalski@mon.gov.pl', einsaetze:1, bis:'2026-06-30', status:'aktiv' },
+  { name:'Sodexo GmbH', land:'🇩🇪 DE', typ:'Dienstleister', ap:'Stefan Voss', tel:'+49 30 xxxx xxxx', mail:'voss@sodexo.de', einsaetze:3, bis:'2026-12-31', status:'aktiv' },
+  { name:'DHL Supply Chain', land:'🇩🇪 DE', typ:'Logistik', ap:'Petra Lang', tel:'+49 228 xxx', mail:'petra.lang@dhl.com', einsaetze:4, bis:'2027-03-31', status:'aktiv' },
+];
+
+const vorlagen = [
+  { icon:'📋', name:'Bedarfsanforderung (Standard)', desc:'Alle 5 Abteilungen', type:'Formular', format:'PDF/DOCX' },
+  { icon:'🚚', name:'Transit-Checkliste Hinverlegung', desc:'Phase 1 — Ein- und Ausreise', type:'Checkliste', format:'PDF' },
+  { icon:'🔙', name:'Transit-Checkliste Rückverlegung', desc:'Phase 1 — Rückreise', type:'Checkliste', format:'PDF' },
+  { icon:'🏕️', name:'Standort-Einrichtungsprotokoll', desc:'Phase 2 — Final Location', type:'Protokoll', format:'PDF/DOCX' },
+  { icon:'🤝', name:'Behörden-Abstimmungsprotokoll', desc:'Staatliche Koordination', type:'Protokoll', format:'DOCX' },
+  { icon:'💰', name:'Abrechnungsvorlage', desc:'Rechnungsstellung an Behörden', type:'Formular', format:'XLSX' },
+  { icon:'👥', name:'Personalliste (Masseneintrag)', desc:'Import-Vorlage CSV', type:'Import', format:'CSV/XLSX' },
+  { icon:'🚛', name:'Fahrzeug- & Containerliste', desc:'Transportplanung', type:'Formular', format:'XLSX' },
+  { icon:'🛡️', name:'Sicherheitsunterweisung', desc:'Einsatz-Briefing Vorlage', type:'Präsentation', format:'PPTX' },
+  { icon:'📊', name:'Lagebericht Vorlage', desc:'Wöchentlicher Statusbericht', type:'Bericht', format:'DOCX' },
+  { icon:'✅', name:'Übergabe-/Abnahmeprotokoll', desc:'Service-Abnahme am Standort', type:'Protokoll', format:'PDF' },
+  { icon:'📞', name:'Kontakt- & Notrufkarte', desc:'Alle Ansprechpartner', type:'Karte', format:'PDF' },
+];
+
+const checlistHin = ['Marschbefehl erstellt', 'Passierscheine / Visa', 'Grenzübertrittserlaubnis', 'Fahrzeugpapiere geprüft', 'ADR-Dokumente (falls erforderlich)', 'Unterkunft am Zielort bestätigt', 'Verpflegung unterwegs geregelt', 'Kommunikation geprüft', 'Notfallkontakte informiert', 'Briefing durchgeführt'];
+const checklistRueck = ['Ausrückeliste erstellt', 'Übergabeprotokoll unterzeichnet', 'Container-Inventar abgeschlossen', 'Schlüssel/Zugangskarten zurückgegeben', 'Abfall vollständig entsorgt', 'IT-Ausrüstung erfasst', 'Rechnungen gestellt', 'Zolldokumente', 'Abschlussfotos gemacht', 'Einsatzbericht eingereicht'];
+
+const activities = [
+  { time:'Heute 09:14', title:'EIN-002 Lyon-Est', desc:'Verpflegungsvertrag verlängert +30 Tage', type:'green' },
+  { time:'Heute 08:22', title:'TRN-004 verzögert', desc:'Grenzübergang Aachen — Wartezeit 4h', type:'amber' },
+  { time:'Gestern 16:45', title:'ABT-3 Anforderung', desc:'Bedarfsanforderung BD-0047 eingegangen', type:'blue' },
+  { time:'Gestern 14:10', title:'RG-2026-002 bezahlt', desc:'Zahlung Warschau €210.000 bestätigt', type:'green' },
+  { time:'27.02 09:00', title:'EIN-005 Brüssel', desc:'Phase 2 Aufbau abgeschlossen', type:'blue' },
+];
+
+const dashAlerts = [
+  { type:'amber', msg:'⚠️ ABT-3 Bedarfsanforderung für Einsatz EIN-008 — Vorlauf unterschritten (28 statt 30 Tage).' },
+  { type:'red', msg:'🚨 TRN-004: Grenzübergang Aachen verzögert. Neue ETA: 19:00 Uhr. Unterkunft informieren.' },
+  { type:'green', msg:'✅ Phase-2-Aufbau LOC-003 (Brüssel) erfolgreich abgeschlossen. Alle Services operationell.' },
+];
+
+const kalenderEvents = [
+  { datum:'2026-03-01', name:'TRN-003 Abfahrt Hamburg→Warschau', abt:'ABT-2', land:'🇵🇱 PL', pers:45, typ:'Transit' },
+  { datum:'2026-03-05', name:'EIN-006 Aufbau Lyon Phase 2', abt:'ABT-4', land:'🇫🇷 FR', pers:80, typ:'Phase 2' },
+  { datum:'2026-03-08', name:'Abrechnung Frankreich fällig', abt:'Zentrale', land:'🇫🇷 FR', pers:0, typ:'Abrechnung' },
+  { datum:'2026-03-12', name:'ABT-1 Anforderung Deadline', abt:'ABT-1', land:'🇩🇪 DE', pers:120, typ:'Anforderung' },
+  { datum:'2026-03-15', name:'EIN-003 Rückverlegung Begin', abt:'ABT-3', land:'🇵🇱 PL', pers:60, typ:'Transit' },
+  { datum:'2026-03-20', name:'Behörden-Meeting Warschau', abt:'Zentrale', land:'🇵🇱 PL', pers:0, typ:'Meeting' },
+];
+
+const slaData = [
+  { service:'Unterkunft', sla:'99%', aktuell:'99.8%', ok:true },
+  { service:'Verpflegung', sla:'98%', aktuell:'99.1%', ok:true },
+  { service:'Wäscheservice', sla:'95%', aktuell:'91.4%', ok:false },
+  { service:'Sanitär', sla:'99%', aktuell:'99.5%', ok:true },
+  { service:'IT/Internet', sla:'99%', aktuell:'97.2%', ok:false },
+  { service:'Transport', sla:'95%', aktuell:'96.3%', ok:true },
+];
+
+// ══════════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════════
+// ── Time state ──
+let _manualMode = false;
+let _manualTimestamp = null; // fixed Date object
+let _manualTZOffset = 1;     // hours offset for display
+
+function _getDisplayTime() {
+  if (_manualMode && _manualTimestamp) {
+    // Advance manual time in real-time
+    const elapsed = Date.now() - _manualTimestamp.set;
+    return new Date(_manualTimestamp.base + elapsed);
+  }
+  return new Date();
+}
+
+function updateClock() {
+  const now = _getDisplayTime();
+  const tzOff = _manualMode ? _manualTZOffset : 0; // UTC for auto, chosen TZ for manual
+  const display = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (tzOff * 3600000));
+  const h = String(display.getHours()).padStart(2,'0');
+  const m = String(display.getMinutes()).padStart(2,'0');
+  const s = String(display.getSeconds()).padStart(2,'0');
+  const tzLabel = _manualMode ? (tzOff >= 0 ? 'UTC+'+tzOff : 'UTC'+tzOff) : 'UTC';
+  document.getElementById('clock').textContent = h+':'+m+':'+s+' '+tzLabel;
+  document.getElementById('dashDate').textContent = now.toLocaleDateString('de-DE', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // Update preview in modal if open
+  const prev = document.getElementById('timePreview');
+  const dprev = document.getElementById('datePreview');
+  if (prev && document.getElementById('timeModal').classList.contains('open')) {
+    prev.textContent = h+':'+m+':'+s;
+    if (dprev) dprev.textContent = now.toLocaleDateString('de-DE', {weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  }
+}
+setInterval(updateClock, 1000); updateClock();
+
+function toggleTimeMode() {
+  const manual = document.getElementById('modeManual').checked;
+  document.getElementById('manualTimeFields').style.display = manual ? 'block' : 'none';
+  if (manual) {
+    // Pre-fill with current time
+    const now = new Date();
+    document.getElementById('manualDate').value = now.toISOString().substring(0,10);
+    document.getElementById('manualTime').value = now.toTimeString().substring(0,8);
+  }
+}
+
+function applyTime() {
+  const manual = document.getElementById('modeManual').checked;
+  if (!manual) {
+    _manualMode = false;
+    _manualTimestamp = null;
+    showToast('🕐 Zurück zur Systemzeit', 'green');
+    closeModal('timeModal');
+    return;
+  }
+  const dateVal = document.getElementById('manualDate').value;
+  const timeVal = document.getElementById('manualTime').value;
+  const tz = parseFloat(document.getElementById('manualTZ').value);
+  if (!dateVal || !timeVal) { showToast('⚠️ Bitte Datum und Uhrzeit eingeben', 'amber'); return; }
+  const combined = new Date(dateVal + 'T' + timeVal);
+  _manualMode = true;
+  _manualTZOffset = tz;
+  _manualTimestamp = { base: combined.getTime(), set: Date.now() };
+  showToast('✅ Zeit angepasst auf ' + timeVal + ' (UTC'+( tz>=0?'+':'')+tz+')', 'amber');
+  closeModal('timeModal');
+}
+
+function resetTime() {
+  _manualMode = false;
+  _manualTimestamp = null;
+  document.getElementById('modeAuto').checked = true;
+  document.getElementById('manualTimeFields').style.display = 'none';
+  showToast('↺ Systemzeit wiederhergestellt', 'green');
+  closeModal('timeModal');
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + id)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.textContent.toLowerCase().includes(id.toLowerCase().substring(0,4))) n.classList.add('active');
+  });
+  if (id === 'kalender') renderCalendar();
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); });
+});
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+const _colors = { amber:'#f59e0b', green:'#10b981', blue:'#3b82f6', red:'#ef4444' };
+
+function showToast(msg, type='amber') {
+  const container = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.style.borderColor = _colors[type] || _colors.amber;
+  t.textContent = msg;
+  container.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(100%)'; t.style.transition='0.3s ease'; setTimeout(()=>t.remove(),300); }, 3500);
+}
+
+// ══════════════════════════════════════════════
+// RENDER DASHBOARD
+// ══════════════════════════════════════════════
+function renderDashboard() {
+  // Einsatztabelle
+  const einsatzTbl = document.getElementById('einsatzTable');
+  einsatzTbl.innerHTML = einsaetze.map(e => {
+    const statusBadge = e.status === 'aktiv' ? 'badge-green' : e.status === 'transit' ? 'badge-amber' : 'badge-blue';
+    return `<tr>
+      <td class="font-mono text-amber">${e.id}</td>
+      <td>${e.land} — ${e.standort}</td>
+      <td><span class="badge badge-blue">Phase ${e.phase}</span></td>
+      <td>${e.pers}</td>
+      <td class="text-sm text-muted">${e.fahrzeuge}</td>
+      <td><span class="badge ${statusBadge}">${e.statusLabel}</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="showView('phase${e.phase}')">Details</button></td>
+    </tr>`;
+  }).join('');
+
+  // Dept progress
+  const dp = document.getElementById('deptProgress');
+  dp.innerHTML = depts.map(d => {
+    const pct = Math.round((d.requests / 5) * 100);
+    return `<div>
+      <div class="flex justify-between items-center mb8">
+        <span class="text-sm font-cond">${d.id}: ${d.name}</span>
+        <span class="text-sm text-muted">${d.requests} Anforderungen</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:${pct}%; background:var(--${d.color})"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Activity
+  const at = document.getElementById('activityTimeline');
+  at.innerHTML = activities.map(a => `
+    <div class="timeline-item">
+      <div class="timeline-dot ${a.type}"></div>
+      <div class="timeline-time">${a.time}</div>
+      <div class="timeline-title">${a.title}</div>
+      <div class="timeline-desc">${a.desc}</div>
+    </div>
+  `).join('');
+
+  // Alerts
+  const da = document.getElementById('dashAlerts');
+  da.innerHTML = dashAlerts.map(a => `<div class="alert alert-${a.type}">${a.msg}</div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// RENDER PHASE 2 LOCATIONS
+// ══════════════════════════════════════════════
+function renderPhase2() {
+  const lc = document.getElementById('locationCards');
+  lc.innerHTML = locations.map(l => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${l.name}</div>
+        <span class="badge badge-green">Aktiv</span>
+      </div>
+      <div style="font-size:0.9rem; margin-bottom:8px;">${l.land}</div>
+      <div class="flex justify-between mb8">
+        <span class="text-muted text-sm">Personal</span>
+        <span class="font-mono text-amber">${l.pers}</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:0.8rem;">
+        <div>🏠 ${l.unterkunft}</div>
+        <div>🍽️ ${l.verpf}</div>
+        <div>🧺 ${l.waesche}</div>
+        <div>🚽 ${l.sanitaer}</div>
+        <div>🌐 ${l.it}</div>
+        <div>🗑️ ${l.abfall}</div>
+      </div>
+    </div>
+  `).join('');
+
+  const lt = document.getElementById('locationTable');
+  lt.innerHTML = locations.map(l => `
+    <tr>
+      <td class="font-mono text-amber">${l.id}</td>
+      <td>${l.land}</td>
+      <td>${l.pers}</td>
+      <td>${l.unterkunft}</td>
+      <td>${l.verpf}</td>
+      <td>${l.waesche}</td>
+      <td>${l.sanitaer}</td>
+      <td>${l.it}</td>
+      <td>${l.abfall}</td>
+      <td><span class="badge badge-green">Aktiv</span></td>
+    </tr>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════
+// RENDER TRANSIT TABLE
+// ══════════════════════════════════════════════
+function renderTransit() {
+  const tt = document.getElementById('transitTable');
+  tt.innerHTML = transits.map(t => {
+    const badge = t.status === 'aktiv' ? 'badge-amber' : t.status === 'abgeschlossen' ? 'badge-green' : t.status === 'verzögert' ? 'badge-red' : 'badge-blue';
+    return `<tr>
+      <td class="font-mono text-amber">${t.id}</td>
+      <td>${t.von} → ${t.nach}</td>
+      <td><span class="badge badge-blue">${t.typ}</span></td>
+      <td>${t.pers}</td>
+      <td class="text-sm text-muted">${t.material}</td>
+      <td class="font-mono text-sm">${t.abfahrt}</td>
+      <td class="font-mono text-sm">${t.eta}</td>
+      <td class="text-sm">${t.grenze}</td>
+      <td><span class="badge ${badge}">${t.status}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Checklists
+  const renderCL = (containerId, items) => {
+    document.getElementById(containerId).innerHTML = items.map((item,i) => `
+      <label style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:0.85rem;">
+        <input type="checkbox" onchange="this.parentNode.style.opacity=this.checked?'0.5':'1'">
+        <span>${item}</span>
+      </label>
+    `).join('');
+  };
+  renderCL('checklistHin', checlistHin);
+  renderCL('checklistRueck', checklistRueck);
+}
+
+// ══════════════════════════════════════════════
+// RENDER SERVICES
+// ══════════════════════════════════════════════
+function renderServices() {
+  const services = [
+    { icon:'🏠', name:'Unterkunft', count:'302 Personen', status:'Operationell', statusType:'green' },
+    { icon:'🍽️', name:'Verpflegung', count:'302 Mahlzeiten/Tag', status:'Operationell', statusType:'green' },
+    { icon:'🧺', name:'Wäscheservice', count:'3 Standorte aktiv', status:'Einschränkung', statusType:'amber' },
+    { icon:'🚽', name:'Sanitäranlagen', count:'64 Einheiten', status:'Operationell', statusType:'green' },
+    { icon:'🗑️', name:'Abfallentsorgung', count:'3 Standorte', status:'Einschränkung', statusType:'amber' },
+    { icon:'🌐', name:'IT & Kommunikation', count:'8 Standorte', status:'Eingeschränkt', statusType:'amber' },
+    { icon:'🚛', name:'Transport', count:'84 Fahrzeuge', status:'Operationell', statusType:'green' },
+    { icon:'⚡', name:'Notstrom', count:'5 Standorte', status:'Bereit', statusType:'green' },
+  ];
+
+  document.getElementById('serviceCards').innerHTML = services.map(s => `
+    <div class="service-card">
+      <div class="service-icon">${s.icon}</div>
+      <div class="service-name">${s.name}</div>
+      <div class="service-count">${s.count}</div>
+      <div class="service-status">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--${s.statusType});display:inline-block;"></span>
+        <span class="text-${s.statusType}">${s.status}</span>
+      </div>
+    </div>
+  `).join('');
+
+  // SLA table
+  const sla = document.getElementById('slaTable');
+  sla.innerHTML = `<table><thead><tr><th>Service</th><th>SLA</th><th>Aktuell</th><th>Status</th></tr></thead><tbody>
+    ${slaData.map(s => `<tr>
+      <td>${s.service}</td>
+      <td class="font-mono">${s.sla}</td>
+      <td class="font-mono text-${s.ok?'green':'red'}">${s.aktuell}</td>
+      <td><span class="badge badge-${s.ok?'green':'red'}">${s.ok?'OK':'Unter SLA'}</span></td>
+    </tr>`).join('')}
+  </tbody></table>`;
+
+  // Provider table
+  const prov = document.getElementById('providerTable');
+  prov.innerHTML = `<table><thead><tr><th>Dienstleister</th><th>Service</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Sodexo GmbH</td><td>Verpflegung</td><td><span class="badge badge-green">Aktiv</span></td></tr>
+    <tr><td>DHL Supply Chain</td><td>Logistik</td><td><span class="badge badge-green">Aktiv</span></td></tr>
+    <tr><td>TOI TOI & DIXI</td><td>Sanitär</td><td><span class="badge badge-green">Aktiv</span></td></tr>
+    <tr><td>Telekom Business</td><td>IT / Internet</td><td><span class="badge badge-amber">SLA-Prüfung</span></td></tr>
+    <tr><td>REMONDIS</td><td>Abfall</td><td><span class="badge badge-amber">Teilausfall</span></td></tr>
+  </tbody></table>`;
+}
+
+// ══════════════════════════════════════════════
+// RENDER PERSONAL
+// ══════════════════════════════════════════════
+function renderPersonal() {
+  renderPersonalTable(personal);
+}
+
+function renderPersonalTable(data) {
+  const pt = document.getElementById('personalTable');
+  pt.innerHTML = data.map(p => {
+    const badge = p.status === 'Aktiv' ? 'badge-green' : p.status === 'Transit' ? 'badge-amber' : 'badge-blue';
+    return `<tr>
+      <td class="font-mono text-amber">${p.id}</td>
+      <td>${p.name}</td>
+      <td><span class="badge badge-blue">${p.abt}</span></td>
+      <td>${p.standort}</td>
+      <td>Phase ${p.phase}</td>
+      <td class="text-sm">${p.unterkunft}</td>
+      <td><span class="badge ${badge}">${p.status}</span></td>
+      <td class="font-mono text-sm">${p.ein}</td>
+      <td class="font-mono text-sm">${p.aus}</td>
+    </tr>`;
+  }).join('');
+}
+
+function filterPersonal(q) {
+  const filtered = personal.filter(p =>
+    p.name.toLowerCase().includes(q.toLowerCase()) ||
+    p.abt.toLowerCase().includes(q.toLowerCase()) ||
+    p.standort.toLowerCase().includes(q.toLowerCase())
+  );
+  renderPersonalTable(filtered);
+}
+
+// ══════════════════════════════════════════════
+// RENDER TRANSPORT
+// ══════════════════════════════════════════════
+function renderTransport() {
+  const tt = document.getElementById('transportTable');
+  tt.innerHTML = transporte.map(t => {
+    const badge = t.status === 'aktiv' ? 'badge-green' : 'badge-amber';
+    return `<tr>
+      <td class="font-mono text-amber">${t.id}</td>
+      <td>${t.typ}</td>
+      <td>${t.standort}</td>
+      <td>${t.einsatz}</td>
+      <td>${t.flaeche} m²</td>
+      <td>${t.ladung}</td>
+      <td><span class="badge ${badge}">${t.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// RENDER ABRECHNUNG
+// ══════════════════════════════════════════════
+function renderAbrechnung() {
+  const rt = document.getElementById('rechnungTable');
+  rt.innerHTML = rechnungen.map(r => {
+    const badge = r.status === 'bezahlt' ? 'badge-green' : r.status === 'überfällig' ? 'badge-red' : 'badge-amber';
+    return `<tr>
+      <td class="font-mono text-amber">${r.nr}</td>
+      <td>${r.empfaenger}</td>
+      <td>${r.einsatz}</td>
+      <td>${r.zeitraum}</td>
+      <td class="font-mono fw7">${r.betrag}</td>
+      <td class="font-mono text-sm">${r.faellig}</td>
+      <td><span class="badge ${badge}">${r.status}</span></td>
+      <td>
+        <div class="flex gap8">
+          <button class="btn btn-ghost btn-sm" onclick="showToast('📄 PDF wird erstellt...','blue')">PDF</button>
+          <button class="btn btn-ghost btn-sm">Senden</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// RENDER PARTNER
+// ══════════════════════════════════════════════
+function renderPartner() {
+  const pt = document.getElementById('partnerTable');
+  pt.innerHTML = partner.map(p => `<tr>
+    <td class="fw7">${p.name}</td>
+    <td>${p.land}</td>
+    <td><span class="badge badge-blue">${p.typ}</span></td>
+    <td>${p.ap}</td>
+    <td class="font-mono text-sm">${p.tel}</td>
+    <td class="text-sm">${p.mail}</td>
+    <td class="text-amber font-mono">${p.einsaetze}</td>
+    <td class="font-mono text-sm">${p.bis}</td>
+    <td><span class="badge badge-green">${p.status}</span></td>
+  </tr>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// RENDER VORLAGEN
+// ══════════════════════════════════════════════
+function renderVorlagen() {
+  const vg = document.getElementById('vorlagenGrid');
+  vg.innerHTML = vorlagen.map(v => `
+    <div class="card" style="display:flex;flex-direction:column;gap:10px;">
+      <div style="font-size:2rem">${v.icon}</div>
+      <div>
+        <div class="fw7 font-cond" style="font-size:1rem;">${v.name}</div>
+        <div class="text-sm text-muted mt8">${v.desc}</div>
+      </div>
+      <div class="flex gap8 items-center">
+        <span class="badge badge-blue">${v.type}</span>
+        <span class="badge badge-gray">${v.format}</span>
+      </div>
+      <button class="btn btn-outline btn-sm w-full" onclick="downloadVorlage('${v.name}')">⬇️ Herunterladen</button>
+    </div>
+  `).join('');
+}
+
+function downloadVorlage(name) {
+  showToast('📥 Vorlage wird generiert: ' + name, 'blue');
+}
+
+// ══════════════════════════════════════════════
+// RENDER ABTEILUNGEN
+// ══════════════════════════════════════════════
+function renderAbteilungen() {
+  const ac = document.getElementById('abteilungCards');
+  ac.innerHTML = depts.map(d => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${d.id}</div>
+        <span class="badge badge-${d.color === 'amber' ? 'amber' : d.color === 'blue' ? 'blue' : d.color === 'green' ? 'green' : 'red'}">${d.requests} Anforderungen</span>
+      </div>
+      <div class="fw7 font-cond" style="font-size:1.2rem; margin-bottom:8px;">${d.name}</div>
+      <div class="text-sm text-muted mb16">Leiter: ${d.lead}</div>
+      <div class="flex gap8">
+        <button class="btn btn-outline btn-sm" onclick="showView('bedarfsanforderung'); selectDeptById('${d.id}')">Neue Anforderung</button>
+        <button class="btn btn-ghost btn-sm">Anforderungen anzeigen</button>
+      </div>
+    </div>
+  `).join('');
+
+  // Settings dept config
+  const dc = document.getElementById('deptConfig');
+  if (dc) {
+    dc.innerHTML = depts.map(d => `
+      <div style="display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);">
+        <div style="flex:1;">
+          <div class="font-cond fw7">${d.id}: ${d.name}</div>
+          <div class="text-xs text-muted">Leiter: ${d.lead}</div>
+        </div>
+        <input class="form-control" style="width:160px" value="${d.lead}" placeholder="Leiter">
+      </div>
+    `).join('');
+  }
+}
+
+// ══════════════════════════════════════════════
+// RENDER CALENDAR
+// ══════════════════════════════════════════════
+function renderCalendar() {
+  const strip = document.getElementById('calStrip');
+  const today = new Date();
+  strip.innerHTML = '';
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(today); d.setDate(today.getDate() + i);
+    const ds = d.toISOString().substring(0,10);
+    const hasEvent = kalenderEvents.some(e => e.datum === ds);
+    const day = document.createElement('div');
+    day.className = 'cal-day' + (i===0?' active':'') + (hasEvent?' has-event':'');
+    const wd = d.toLocaleDateString('de-DE',{weekday:'short'});
+    const dn = d.getDate();
+    day.innerHTML = `<div class="cal-day-name">${wd}</div><div class="cal-day-num">${dn}</div>${hasEvent?'<div class="cal-event-dot"></div>':''}`;
+    day.onclick = () => { document.querySelectorAll('.cal-day').forEach(x=>x.classList.remove('active')); day.classList.add('active'); };
+    strip.appendChild(day);
+  }
+
+  const kt = document.getElementById('kalenderTable');
+  kt.innerHTML = kalenderEvents.map(e => `<tr>
+    <td class="font-mono text-amber">${e.datum}</td>
+    <td>${e.name}</td>
+    <td><span class="badge badge-blue">${e.abt}</span></td>
+    <td>${e.land}</td>
+    <td>${e.pers > 0 ? e.pers : '—'}</td>
+    <td><span class="badge badge-gray">${e.typ}</span></td>
+  </tr>`).join('');
+}
+
+// ══════════════════════════════════════════════
+// FORM STEPS
+// ══════════════════════════════════════════════
+let currentStep = 1;
+
+function showStep(step) {
+  for (let i=1; i<=5; i++) {
+    const el = document.getElementById('formStep'+i);
+    if (el) el.style.display = i===step ? 'block' : 'none';
+    const sEl = document.getElementById('step'+i);
+    if (sEl) {
+      sEl.classList.remove('active','done');
+      if (i < step) sEl.classList.add('done');
+      if (i === step) sEl.classList.add('active');
+    }
+    const lineEl = document.getElementById('line'+i+(i+1));
+    if (lineEl) lineEl.classList.toggle('done', i < step);
+  }
+  document.getElementById('prevStepBtn').style.visibility = step > 1 ? 'visible' : 'hidden';
+  document.getElementById('nextStepBtn').textContent = step === 5 ? 'Einreichen ✅' : 'Weiter ▶';
+  document.getElementById('stepLabel').textContent = 'Schritt ' + step + ' von 5';
+  if (step === 5) updateSummary();
+}
+
+function nextStep() {
+  if (currentStep < 5) { currentStep++; showStep(currentStep); }
+  else submitBedarfsanforderung();
+}
+
+function prevStep() {
+  if (currentStep > 1) { currentStep--; showStep(currentStep); }
+}
+
+function updateSummary() {
+  const abt = document.getElementById('bdAbt')?.value || '';
+  const phase = document.getElementById('bdPhase')?.value || '';
+  const land = document.getElementById('bdLand')?.value || '';
+  const standort = document.getElementById('bdStandort')?.value || '';
+  const beginn = document.getElementById('bdBeginn')?.value || '';
+  const ende = document.getElementById('bdEnde')?.value || '';
+  const pers = document.getElementById('personalInput')?.value || '0';
+  const lkw = document.getElementById('tLkw')?.value || '0';
+  const pkw = document.getElementById('tPkw')?.value || '0';
+  const container = document.getElementById('tContainer')?.value || '0';
+  const budget = document.getElementById('bdBudget')?.value || '0';
+  const prio = document.getElementById('bdPrio')?.value || '';
+  const anf = document.getElementById('bdAnforderer')?.value || '';
+
+  const s = `══════════════════════════════════
+BEDARFSANFORDERUNG — ZUSAMMENFASSUNG
+══════════════════════════════════
+Abteilung        : ${abt}
+Phase            : Phase ${phase}
+Priorität        : ${prio}
+──────────────────────────────────
+EINSATZ
+Land / Standort  : ${land} / ${standort}
+Beginn           : ${beginn}
+Ende             : ${ende}
+──────────────────────────────────
+PERSONAL & SERVICES
+Gesamtpersonal   : ${pers} Personen
+──────────────────────────────────
+TRANSPORT
+LKW              : ${lkw}
+PKW              : ${pkw}
+Container        : ${container}
+──────────────────────────────────
+FINANZEN
+Budget (EUR)     : ${budget}
+──────────────────────────────────
+Anforderer       : ${anf}
+══════════════════════════════════`;
+
+  document.getElementById('summaryContent').textContent = s;
+}
+
+function submitBedarfsanforderung() {
+  const id = 'BD-' + String(Date.now()).slice(-5);
+  document.getElementById('bdId').value = id;
+  showToast('✅ Anforderung ' + id + ' erfolgreich eingereicht!', 'green');
+  currentStep = 1;
+  showStep(1);
+}
+
+// ══════════════════════════════════════════════
+// BEDARFSFORMULAR DEPT SELECTOR
+// ══════════════════════════════════════════════
+function selectDept(el, id) {
+  document.querySelectorAll('.dept-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const sel = document.getElementById('bdAbt');
+  if (sel) {
+    for (let opt of sel.options) {
+      if (opt.value.includes(id) || opt.text.includes(id)) { opt.selected = true; break; }
+    }
+  }
+}
+
+function selectDeptById(id) {
+  const tabs = document.querySelectorAll('.dept-tab');
+  tabs.forEach((t,i) => {
+    t.classList.remove('active');
+    if (t.textContent.includes(id)) t.classList.add('active');
+  });
+}
+
+// ══════════════════════════════════════════════
+// PERSONAL SLIDER
+// ══════════════════════════════════════════════
+function updatePersonalSlider() {
+  const v = document.getElementById('personalSlider').value;
+  document.getElementById('personalVal').textContent = v;
+  document.getElementById('personalInput').value = v;
+}
+function syncPersonalInput() {
+  const v = document.getElementById('personalInput').value;
+  document.getElementById('personalSlider').value = v;
+  document.getElementById('personalVal').textContent = v;
+}
+
+// ══════════════════════════════════════════════
+// SAVE ACTIONS
+// ══════════════════════════════════════════════
+function saveTransit() {
+  showToast('✅ Transit erfolgreich angelegt', 'green');
+  closeModal('newTransitModal');
+}
+function saveRechnung() {
+  const nr = 'RG-2026-' + String(Date.now()).slice(-3);
+  showToast('✅ Rechnung ' + nr + ' erstellt', 'green');
+  closeModal('newRechnungModal');
+}
+
+// ══════════════════════════════════════════════
+// PRINT
+// ══════════════════════════════════════════════
+function printForm() {
+  window.print();
+}
+
+// ══════════════════════════════════════════════
+// INIT: SET DEFAULT DATES
+// ══════════════════════════════════════════════
+function initDates() {
+  const today = new Date().toISOString().substring(0,10);
+  const in30 = new Date(); in30.setDate(in30.getDate() + 30);
+  const in60 = new Date(); in60.setDate(in60.getDate() + 60);
+  const d = document.getElementById('bdDatum');
+  const b = document.getElementById('bdBeginn');
+  const e = document.getElementById('bdEnde');
+  if (d) d.value = today;
+  if (b) b.value = in30.toISOString().substring(0,10);
+  if (e) e.value = in60.toISOString().substring(0,10);
+  // Auto ID
+  const bdId = document.getElementById('bdId');
+  if (bdId) bdId.value = 'BD-' + String(Date.now()).slice(-5);
+}
+
+
+// ══════════════════════════════════════════════
+// PERSONENTABELLE — Zeile hinzufügen
+// ══════════════════════════════════════════════
+function addPersonRow() {
+  const tbody = document.getElementById('personTableBody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><input class="form-control" placeholder="Nachname" style="min-width:120px"></td>
+    <td><input class="form-control" placeholder="Vorname" style="min-width:100px"></td>
+    <td><input class="form-control" placeholder="P-${String(Date.now()).slice(-4)}" style="min-width:90px"></td>
+    <td><select class="form-control" style="min-width:130px">
+      <option>ABT-1: Planung</option><option>ABT-2: Logistik</option>
+      <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
+    </select></td>
+    <td><input class="form-control" placeholder="Funktion" style="min-width:110px"></td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
+  `;
+  tbody.appendChild(row);
+}
+
+// ══════════════════════════════════════════════
+// FAHRZEUGTABELLE — Zeile hinzufügen + Typ-Sync
+// ══════════════════════════════════════════════
+const _fzTypen = {
+  lkw: ['Standard-LKW (7,5t)', 'Schwerlast-LKW (40t)', 'Kühlfahrzeug', 'Tankfahrzeug', 'Sattelzug'],
+  pkw: ['Standard PKW', 'Geländefahrzeug (SUV)', 'Limousine', 'Kombi'],
+  bus: ['Minibus (9 Pax)', 'Reisebus (50 Pax)', 'Gelenkbus'],
+  container: ['20-Fuß-Standard', '40-Fuß-Standard', 'Bürocontainer', 'Schlafcontainer', 'Sanitärcontainer'],
+  transporter: ['Kleintransporter (3,5t)', 'Großraumtransporter', 'Sprinter']
+};
+
+function updateFahrzeugTyp(select) {
+  const row = select.closest('tr');
+  const typSelect = row.querySelector('.fz-typ-select');
+  const kat = select.value;
+  const optionen = _fzTypen[kat] || [];
+  typSelect.innerHTML = optionen.map(o => `<option>${o}</option>`).join('');
+}
+
+function addFahrzeugRow() {
+  const tbody = document.getElementById('fahrzeugTableBody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><select class="form-control" style="min-width:130px" onchange="updateFahrzeugTyp(this)">
+      <option value="lkw">🚛 LKW</option>
+      <option value="pkw">🚗 PKW</option>
+      <option value="bus">🚌 Bus</option>
+      <option value="container">📦 Container</option>
+      <option value="transporter">🚐 Transporter</option>
+    </select></td>
+    <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td>
+    <td><select class="form-control fz-typ-select" style="min-width:160px">
+      <option>Standard-LKW (7,5t)</option>
+      <option>Schwerlast-LKW (40t)</option>
+      <option>Kühlfahrzeug</option>
+      <option>Tankfahrzeug</option>
+    </select></td>
+    <td><input class="form-control" placeholder="z.B. 40t / 9 Pax" style="min-width:110px"></td>
+    <td><input class="form-control" type="number" placeholder="56" style="min-width:80px" oninput="updateGesamtflaeche()"></td>
+    <td><select class="form-control" style="min-width:120px">
+      <option>Kein ADR</option><option>ADR Klasse 1</option>
+      <option>ADR Klasse 2</option><option>ADR Klasse 3</option><option>ADR Klasse 7</option>
+    </select></td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>
+  `;
+  tbody.appendChild(row);
+  updateGesamtflaeche();
+}
+
+function updateGesamtflaeche() {
+  const inputs = document.querySelectorAll('#fahrzeugTableBody input[type=number]');
+  let total = 0;
+  inputs.forEach(i => { total += parseFloat(i.value)||0; });
+  const el = document.getElementById('gesamtFlaeche');
+  const cnt = document.getElementById('fahrzeugCount');
+  if (el) el.textContent = total + ' m²';
+  if (cnt) cnt.textContent = document.querySelectorAll('#fahrzeugTableBody tr').length;
+}
+
+// ══════════════════════════════════════════════
+// DOWNLOAD — App als HTML-Datei speichern
+// ══════════════════════════════════════════════
+function downloadApp() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+  if (isIOS) {
+    // iOS Safari: open in new tab → user saves via Share Sheet
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const newTab = window.open(url, '_blank');
+    if (!newTab) {
+      // Popup blocked — show copy modal instead
+      openModal('saveModal');
+      document.getElementById('saveContent').value = html;
+    } else {
+      showToast('📋 Neuer Tab geöffnet — Teilen ↑ → In Dateien sichern', 'amber');
+    }
+    return;
+  }
+
+  // Desktop / Android
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'OPS360.html';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  showToast('📥 OPS360.html wird gespeichert...', 'amber');
+}
+
+
+function openInNewTab() {
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  showToast('📋 Teilen ↑ → In Dateien sichern', 'amber');
+}
+
+function copySaveContent() {
+  const ta = document.getElementById('saveContent');
+  if (!ta.value) {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    ta.value = html;
+  }
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('✅ Code kopiert! In Notizen einfügen & als .html speichern', 'green');
+  } catch(e) {
+    navigator.clipboard.writeText(ta.value).then(() => {
+      showToast('✅ Code kopiert!', 'green');
+    });
+  }
+}
+
+// ══════════════════════════════════════════════
+// SERVICE WORKER REGISTRATION
+// ══════════════════════════════════════════════
+if ('serviceWorker' in navigator) {
+  // SW registered inline above
+}
+
+// ══════════════════════════════════════════════
+// PWA INSTALL
+// ══════════════════════════════════════════════
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  const btn = document.createElement('button');
+  btn.className = 'topbar-btn';
+  btn.textContent = '📱 App installieren';
+  btn.onclick = async () => { deferredPrompt.prompt(); btn.remove(); };
+  document.querySelector('.topbar-right').prepend(btn);
+});
+
+// ══════════════════════════════════════════════
+// BOOTSTRAP
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderDashboard();
+  renderPhase2();
+  renderTransit();
+  renderServices();
+  renderPersonal();
+  renderTransport();
+  renderAbrechnung();
+  renderPartner();
+  renderVorlagen();
+  renderAbteilungen();
+  initDates();
+  showStep(1);
+
+  // Mobile sidebar
+  if (window.innerWidth <= 900) {
+    document.getElementById('menuBtn').style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>
