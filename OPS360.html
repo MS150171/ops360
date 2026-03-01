@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -56,139 +55,139 @@ if('serviceWorker' in navigator){
   --transition: 0.2s ease;
 }
 
-- { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-font-family: ‘Barlow’, sans-serif;
-background: var(–bg);
-color: var(–text);
-min-height: 100vh;
-overflow-x: hidden;
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(–bg2); }
-::-webkit-scrollbar-thumb { background: var(–border2); border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
 
 /* ── TOPBAR ── */
 .topbar {
-position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-height: 56px;
-background: var(–bg2);
-border-bottom: 1px solid var(–border);
-display: flex; align-items: center; padding: 0 20px;
-gap: 20px;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 20px;
+  gap: 20px;
 }
 .logo {
-font-family: ‘Space Mono’, monospace;
-font-size: 1.1rem; font-weight: 700;
-color: var(–amber);
-letter-spacing: 2px;
-display: flex; align-items: center; gap: 10px;
-white-space: nowrap;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 2px;
+  display: flex; align-items: center; gap: 10px;
+  white-space: nowrap;
 }
 .logo-icon {
-width: 32px; height: 32px;
-background: var(–amber);
-border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-position: relative;
+  width: 32px; height: 32px;
+  background: var(--amber);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
 }
 .logo-icon::after {
-content: ‘’;
-width: 14px; height: 14px;
-border: 2px solid var(–bg);
-border-radius: 50%;
+  content: '';
+  width: 14px; height: 14px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
 }
 .logo-sub {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.65rem; letter-spacing: 4px;
-color: var(–text3); font-weight: 400;
-margin-top: -4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.65rem; letter-spacing: 4px;
+  color: var(--text3); font-weight: 400;
+  margin-top: -4px;
 }
 .topbar-center { flex: 1; }
 .clock {
-font-family: ‘Space Mono’, monospace;
-font-size: 0.8rem; color: var(–text2);
-letter-spacing: 2px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem; color: var(--text2);
+  letter-spacing: 2px;
 }
 .topbar-right { display: flex; align-items: center; gap: 12px; }
 .status-dot {
-width: 8px; height: 8px; border-radius: 50%;
-background: var(–green);
-box-shadow: 0 0 8px var(–green);
-animation: pulse 2s infinite;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulse 2s infinite;
 }
 @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
 .topbar-btn {
-background: var(–panel);
-border: 1px solid var(–border);
-color: var(–text2);
-padding: 6px 12px;
-border-radius: var(–radius);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.8rem; letter-spacing: 1px;
-cursor: pointer;
-transition: var(–transition);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.8rem; letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition);
 }
-.topbar-btn:hover { border-color: var(–amber); color: var(–amber); }
+.topbar-btn:hover { border-color: var(--amber); color: var(--amber); }
 
 /* ── SIDEBAR ── */
 .sidebar {
-position: fixed; top: 56px; left: 0; bottom: 0;
-width: 220px;
-background: var(–bg2);
-border-right: 1px solid var(–border);
-overflow-y: auto; z-index: 90;
-transition: transform 0.3s ease;
+  position: fixed; top: 56px; left: 0; bottom: 0;
+  width: 220px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  overflow-y: auto; z-index: 90;
+  transition: transform 0.3s ease;
 }
 .nav-section { padding: 16px 12px 8px; }
 .nav-label {
-font-family: ‘Space Mono’, monospace;
-font-size: 0.55rem; letter-spacing: 3px;
-color: var(–text3); text-transform: uppercase;
-margin-bottom: 8px; padding: 0 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 3px;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 8px; padding: 0 8px;
 }
 .nav-item {
-display: flex; align-items: center; gap: 10px;
-padding: 9px 12px;
-border-radius: var(–radius);
-cursor: pointer;
-transition: var(–transition);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.9rem; letter-spacing: 0.5px; font-weight: 500;
-color: var(–text2);
-border: 1px solid transparent;
-position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; letter-spacing: 0.5px; font-weight: 500;
+  color: var(--text2);
+  border: 1px solid transparent;
+  position: relative;
 }
-.nav-item:hover { background: var(–panel); color: var(–text); }
+.nav-item:hover { background: var(--panel); color: var(--text); }
 .nav-item.active {
-background: var(–amber-dim);
-border-color: var(–border2);
-color: var(–amber);
+  background: var(--amber-dim);
+  border-color: var(--border2);
+  color: var(--amber);
 }
 .nav-item.active::before {
-content: ‘’;
-position: absolute; left: 0; top: 4px; bottom: 4px;
-width: 3px; background: var(–amber);
-border-radius: 0 2px 2px 0;
+  content: '';
+  position: absolute; left: 0; top: 4px; bottom: 4px;
+  width: 3px; background: var(--amber);
+  border-radius: 0 2px 2px 0;
 }
 .nav-icon { font-size: 1rem; width: 20px; text-align: center; }
 .nav-badge {
-margin-left: auto;
-background: var(–amber);
-color: var(–bg);
-font-size: 0.6rem; font-weight: 700;
-padding: 1px 5px; border-radius: 10px;
-font-family: ‘Space Mono’, monospace;
+  margin-left: auto;
+  background: var(--amber);
+  color: var(--bg);
+  font-size: 0.6rem; font-weight: 700;
+  padding: 1px 5px; border-radius: 10px;
+  font-family: 'Space Mono', monospace;
 }
 
 /* ── MAIN ── */
 .main {
-margin-left: 220px; margin-top: 56px;
-padding: 24px;
-min-height: calc(100vh - 56px);
+  margin-left: 220px; margin-top: 56px;
+  padding: 24px;
+  min-height: calc(100vh - 56px);
 }
 
 /* ── VIEWS ── */
@@ -198,46 +197,46 @@ min-height: calc(100vh - 56px);
 
 /* ── PAGE HEADER ── */
 .page-header {
-display: flex; align-items: flex-end; justify-content: space-between;
-margin-bottom: 24px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 24px;
 }
 .page-title {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 2rem; font-weight: 700;
-letter-spacing: 1px;
-line-height: 1;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2rem; font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1;
 }
-.page-title span { color: var(–amber); }
+.page-title span { color: var(--amber); }
 .page-sub {
-font-size: 0.8rem; color: var(–text3);
-margin-top: 4px; letter-spacing: 1px;
-font-family: ‘Space Mono’, monospace;
+  font-size: 0.8rem; color: var(--text3);
+  margin-top: 4px; letter-spacing: 1px;
+  font-family: 'Space Mono', monospace;
 }
 
 /* ── BUTTONS ── */
 .btn {
-display: inline-flex; align-items: center; gap: 6px;
-padding: 8px 16px;
-border-radius: var(–radius);
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;
-cursor: pointer; border: none;
-transition: var(–transition);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem; letter-spacing: 1px; font-weight: 600;
+  cursor: pointer; border: none;
+  transition: var(--transition);
 }
-.btn-primary { background: var(–amber); color: var(–bg); }
-.btn-primary:hover { background: var(–amber2); transform: translateY(-1px); }
+.btn-primary { background: var(--amber); color: var(--bg); }
+.btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
 .btn-outline {
-background: transparent; color: var(–amber);
-border: 1px solid var(–amber);
+  background: transparent; color: var(--amber);
+  border: 1px solid var(--amber);
 }
-.btn-outline:hover { background: var(–amber-dim); }
+.btn-outline:hover { background: var(--amber-dim); }
 .btn-ghost {
-background: var(–panel); color: var(–text2);
-border: 1px solid var(–border);
+  background: var(--panel); color: var(--text2);
+  border: 1px solid var(--border);
 }
-.btn-ghost:hover { border-color: var(–border2); color: var(–text); }
-.btn-danger { background: var(–red); color: white; }
-.btn-success { background: var(–green); color: var(–bg); }
+.btn-ghost:hover { border-color: var(--border2); color: var(--text); }
+.btn-danger { background: var(--red); color: white; }
+.btn-success { background: var(--green); color: var(--bg); }
 .btn-sm { padding: 5px 10px; font-size: 0.75rem; }
 
 /* ── GRID ── */
@@ -249,328 +248,328 @@ border: 1px solid var(–border);
 
 /* ── CARDS ── */
 .card {
-background: var(–panel);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 20px;
 }
 .card-header {
-display: flex; align-items: center; justify-content: space-between;
-margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
 }
 .card-title {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.75rem; letter-spacing: 3px;
-color: var(–text3); text-transform: uppercase; font-weight: 600;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.75rem; letter-spacing: 3px;
+  color: var(--text3); text-transform: uppercase; font-weight: 600;
 }
 
 /* ── KPI CARDS ── */
 .kpi-card {
-background: var(–panel);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 20px;
-position: relative; overflow: hidden;
-transition: var(–transition);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 20px;
+  position: relative; overflow: hidden;
+  transition: var(--transition);
 }
-.kpi-card:hover { border-color: var(–border2); transform: translateY(-2px); }
+.kpi-card:hover { border-color: var(--border2); transform: translateY(-2px); }
 .kpi-card::before {
-content: ‘’;
-position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
 }
-.kpi-card.amber::before { background: var(–amber); }
-.kpi-card.green::before { background: var(–green); }
-.kpi-card.blue::before { background: var(–blue); }
-.kpi-card.red::before { background: var(–red); }
+.kpi-card.amber::before { background: var(--amber); }
+.kpi-card.green::before { background: var(--green); }
+.kpi-card.blue::before { background: var(--blue); }
+.kpi-card.red::before { background: var(--red); }
 .kpi-label {
-font-family: ‘Space Mono’, monospace;
-font-size: 0.6rem; letter-spacing: 2px;
-color: var(–text3); text-transform: uppercase;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
 }
 .kpi-value {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 2.4rem; font-weight: 900;
-line-height: 1; margin: 8px 0 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.4rem; font-weight: 900;
+  line-height: 1; margin: 8px 0 4px;
 }
-.kpi-card.amber .kpi-value { color: var(–amber); }
-.kpi-card.green .kpi-value { color: var(–green); }
-.kpi-card.blue .kpi-value { color: var(–blue); }
-.kpi-card.red .kpi-value { color: var(–red); }
-.kpi-sub { font-size: 0.75rem; color: var(–text3); }
+.kpi-card.amber .kpi-value { color: var(--amber); }
+.kpi-card.green .kpi-value { color: var(--green); }
+.kpi-card.blue .kpi-value { color: var(--blue); }
+.kpi-card.red .kpi-value { color: var(--red); }
+.kpi-sub { font-size: 0.75rem; color: var(--text3); }
 .kpi-icon {
-position: absolute; right: 16px; top: 16px;
-font-size: 2rem; opacity: 0.15;
+  position: absolute; right: 16px; top: 16px;
+  font-size: 2rem; opacity: 0.15;
 }
 
 /* ── TABLE ── */
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 th {
-text-align: left;
-font-family: ‘Space Mono’, monospace;
-font-size: 0.55rem; letter-spacing: 2px;
-color: var(–text3); text-transform: uppercase;
-padding: 8px 12px;
-border-bottom: 1px solid var(–border);
+  text-align: left;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
 }
 td {
-padding: 10px 12px;
-font-size: 0.85rem;
-border-bottom: 1px solid var(–border);
-vertical-align: middle;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
 }
 tr:last-child td { border-bottom: none; }
-tr:hover td { background: var(–panel2); }
+tr:hover td { background: var(--panel2); }
 
 /* ── BADGES ── */
 .badge {
-display: inline-block;
-padding: 2px 8px;
-border-radius: 100px;
-font-size: 0.7rem; font-weight: 600;
-font-family: ‘Barlow Condensed’, sans-serif;
-letter-spacing: 0.5px;
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 100px;
+  font-size: 0.7rem; font-weight: 600;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.5px;
 }
-.badge-amber { background: var(–amber-dim); color: var(–amber); border: 1px solid rgba(245,158,11,0.3); }
-.badge-green { background: var(–green-dim); color: var(–green); border: 1px solid rgba(16,185,129,0.3); }
-.badge-red { background: var(–red-dim); color: var(–red); border: 1px solid rgba(239,68,68,0.3); }
-.badge-blue { background: var(–blue-dim); color: var(–blue); border: 1px solid rgba(59,130,246,0.3); }
-.badge-gray { background: rgba(100,116,139,0.2); color: var(–text3); border: 1px solid rgba(100,116,139,0.3); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+.badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+.badge-red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.badge-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(59,130,246,0.3); }
+.badge-gray { background: rgba(100,116,139,0.2); color: var(--text3); border: 1px solid rgba(100,116,139,0.3); }
 
 /* ── FORMS ── */
 .form-group { margin-bottom: 16px; }
 .form-label {
-display: block;
-font-family: ‘Space Mono’, monospace;
-font-size: 0.6rem; letter-spacing: 2px;
-color: var(–text3); text-transform: uppercase;
-margin-bottom: 6px;
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--text3); text-transform: uppercase;
+  margin-bottom: 6px;
 }
 .form-control {
-width: 100%;
-background: var(–bg3);
-border: 1px solid var(–border);
-border-radius: var(–radius);
-color: var(–text);
-padding: 9px 12px;
-font-family: ‘Barlow’, sans-serif;
-font-size: 0.9rem;
-transition: var(–transition);
-outline: none;
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 9px 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  outline: none;
 }
-.form-control:focus { border-color: var(–amber); box-shadow: 0 0 0 2px var(–amber-dim); }
-.form-control::placeholder { color: var(–text3); }
-select.form-control option { background: var(–bg3); }
+.form-control:focus { border-color: var(--amber); box-shadow: 0 0 0 2px var(--amber-dim); }
+.form-control::placeholder { color: var(--text3); }
+select.form-control option { background: var(--bg3); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
 /* ── PROGRESS ── */
 .progress-bar {
-height: 4px; background: var(–border);
-border-radius: 2px; overflow: hidden;
-margin-top: 8px;
+  height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+  margin-top: 8px;
 }
 .progress-fill {
-height: 100%; border-radius: 2px;
-transition: width 0.6s ease;
+  height: 100%; border-radius: 2px;
+  transition: width 0.6s ease;
 }
 
 /* ── TIMELINE ── */
 .timeline { position: relative; padding-left: 24px; }
 .timeline::before {
-content: ‘’;
-position: absolute; left: 8px; top: 0; bottom: 0;
-width: 1px; background: var(–border);
+  content: '';
+  position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 1px; background: var(--border);
 }
 .timeline-item { position: relative; margin-bottom: 20px; }
 .timeline-dot {
-position: absolute; left: -20px; top: 4px;
-width: 10px; height: 10px; border-radius: 50%;
-border: 2px solid;
+  position: absolute; left: -20px; top: 4px;
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid;
 }
-.timeline-dot.amber { border-color: var(–amber); background: var(–amber-dim); }
-.timeline-dot.green { border-color: var(–green); background: var(–green-dim); }
-.timeline-dot.blue { border-color: var(–blue); background: var(–blue-dim); }
-.timeline-dot.gray { border-color: var(–border2); background: var(–border); }
+.timeline-dot.amber { border-color: var(--amber); background: var(--amber-dim); }
+.timeline-dot.green { border-color: var(--green); background: var(--green-dim); }
+.timeline-dot.blue { border-color: var(--blue); background: var(--blue-dim); }
+.timeline-dot.gray { border-color: var(--border2); background: var(--border); }
 .timeline-time {
-font-family: ‘Space Mono’, monospace;
-font-size: 0.6rem; color: var(–text3);
-margin-bottom: 2px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; color: var(--text3);
+  margin-bottom: 2px;
 }
 .timeline-title { font-size: 0.85rem; font-weight: 600; }
-.timeline-desc { font-size: 0.8rem; color: var(–text2); margin-top: 2px; }
+.timeline-desc { font-size: 0.8rem; color: var(--text2); margin-top: 2px; }
 
 /* ── MODAL ── */
 .modal-overlay {
-display: none; position: fixed; inset: 0; z-index: 200;
-background: rgba(8,12,24,0.85);
-backdrop-filter: blur(4px);
-align-items: center; justify-content: center;
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,12,24,0.85);
+  backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
 }
 .modal-overlay.open { display: flex; }
 .modal {
-background: var(–panel);
-border: 1px solid var(–border2);
-border-radius: var(–radius2);
-width: 90%; max-width: 780px; max-height: 90vh;
-overflow-y: auto;
-box-shadow: 0 24px 80px rgba(0,0,0,0.8);
-animation: modalIn 0.25s ease;
+  background: var(--panel);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius2);
+  width: 90%; max-width: 780px; max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.8);
+  animation: modalIn 0.25s ease;
 }
 @keyframes modalIn { from { transform: scale(0.95); opacity:0; } to { transform:scale(1); opacity:1; } }
 .modal-header {
-padding: 20px 24px;
-border-bottom: 1px solid var(–border);
-display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
 }
 .modal-title {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 1.2rem; font-weight: 700; letter-spacing: 1px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.2rem; font-weight: 700; letter-spacing: 1px;
 }
 .modal-close {
-background: none; border: none; color: var(–text3);
-font-size: 1.2rem; cursor: pointer;
-transition: var(–transition);
+  background: none; border: none; color: var(--text3);
+  font-size: 1.2rem; cursor: pointer;
+  transition: var(--transition);
 }
-.modal-close:hover { color: var(–red); }
+.modal-close:hover { color: var(--red); }
 .modal-body { padding: 24px; }
 .modal-footer {
-padding: 16px 24px;
-border-top: 1px solid var(–border);
-display: flex; gap: 10px; justify-content: flex-end;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 10px; justify-content: flex-end;
 }
 
 /* ── MAP PLACEHOLDER ── */
 .world-map {
-background: var(–bg3);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-height: 260px;
-position: relative; overflow: hidden;
-display: flex; align-items: center; justify-content: center;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  height: 260px;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
 }
 .world-map svg { width: 100%; height: 100%; opacity: 0.6; }
 .map-dot {
-position: absolute;
-width: 10px; height: 10px; border-radius: 50%;
-background: var(–amber);
-box-shadow: 0 0 12px var(–amber);
-animation: pulse 2s infinite;
+  position: absolute;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 12px var(--amber);
+  animation: pulse 2s infinite;
 }
 .map-label {
-position: absolute;
-font-family: ‘Space Mono’, monospace;
-font-size: 0.55rem; color: var(–amber);
-white-space: nowrap;
-margin-top: 12px;
+  position: absolute;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem; color: var(--amber);
+  white-space: nowrap;
+  margin-top: 12px;
 }
 
 /* ── ALERT ── */
 .alert {
-padding: 12px 16px;
-border-radius: var(–radius);
-display: flex; align-items: flex-start; gap: 10px;
-margin-bottom: 12px;
-font-size: 0.85rem;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
 }
-.alert-amber { background: var(–amber-dim); border: 1px solid rgba(245,158,11,0.3); color: var(–amber2); }
-.alert-green { background: var(–green-dim); border: 1px solid rgba(16,185,129,0.3); color: var(–green); }
-.alert-red { background: var(–red-dim); border: 1px solid rgba(239,68,68,0.3); color: var(–red); }
+.alert-amber { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.3); color: var(--amber2); }
+.alert-green { background: var(--green-dim); border: 1px solid rgba(16,185,129,0.3); color: var(--green); }
+.alert-red { background: var(--red-dim); border: 1px solid rgba(239,68,68,0.3); color: var(--red); }
 
 /* ── SERVICE GRID ── */
 .service-card {
-background: var(–panel);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 16px;
-display: flex; flex-direction: column; gap: 10px;
-transition: var(–transition);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius2);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: var(--transition);
 }
-.service-card:hover { border-color: var(–border2); }
+.service-card:hover { border-color: var(--border2); }
 .service-icon { font-size: 1.8rem; }
 .service-name {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px;
 }
-.service-count { font-size: 0.75rem; color: var(–text3); }
+.service-count { font-size: 0.75rem; color: var(--text3); }
 .service-status { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; }
 
 /* ── DEPT TABS ── */
 .dept-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
 .dept-tab {
-padding: 7px 16px;
-border-radius: var(–radius);
-border: 1px solid var(–border);
-background: var(–panel);
-color: var(–text2);
-cursor: pointer;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-size: 0.85rem; letter-spacing: 0.5px; font-weight: 500;
-transition: var(–transition);
+  padding: 7px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text2);
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 0.85rem; letter-spacing: 0.5px; font-weight: 500;
+  transition: var(--transition);
 }
-.dept-tab:hover { border-color: var(–border2); }
-.dept-tab.active { background: var(–amber-dim); border-color: var(–amber); color: var(–amber); }
+.dept-tab:hover { border-color: var(--border2); }
+.dept-tab.active { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
 
 /* ── STEP INDICATOR ── */
 .steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
 .step { display: flex; align-items: center; gap: 8px; }
 .step-num {
-width: 28px; height: 28px; border-radius: 50%;
-display: flex; align-items: center; justify-content: center;
-font-family: ‘Space Mono’, monospace; font-size: 0.7rem;
-border: 2px solid var(–border2); color: var(–text3);
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  border: 2px solid var(--border2); color: var(--text3);
 }
-.step.done .step-num { background: var(–green); border-color: var(–green); color: var(–bg); }
-.step.active .step-num { background: var(–amber); border-color: var(–amber); color: var(–bg); }
-.step-label { font-size: 0.8rem; color: var(–text3); font-family: ‘Barlow Condensed’, sans-serif; letter-spacing: 0.5px; }
-.step.active .step-label { color: var(–amber); }
-.step.done .step-label { color: var(–green); }
-.step-line { flex: 1; height: 1px; background: var(–border); min-width: 20px; }
-.step-line.done { background: var(–green); }
+.step.done .step-num { background: var(--green); border-color: var(--green); color: var(--bg); }
+.step.active .step-num { background: var(--amber); border-color: var(--amber); color: var(--bg); }
+.step-label { font-size: 0.8rem; color: var(--text3); font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.5px; }
+.step.active .step-label { color: var(--amber); }
+.step.done .step-label { color: var(--green); }
+.step-line { flex: 1; height: 1px; background: var(--border); min-width: 20px; }
+.step-line.done { background: var(--green); }
 
 /* ── PRINT ── */
 @media print {
-.sidebar, .topbar, .no-print { display: none !important; }
-.main { margin: 0; }
+  .sidebar, .topbar, .no-print { display: none !important; }
+  .main { margin: 0; }
 }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-.sidebar { transform: translateX(-100%); }
-.sidebar.open { transform: translateX(0); }
-.main { margin-left: 0; }
-.grid-4 { grid-template-columns: repeat(2,1fr); }
-.grid-3 { grid-template-columns: 1fr; }
-.grid-12, .grid-21 { grid-template-columns: 1fr; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .grid-4 { grid-template-columns: repeat(2,1fr); }
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-12, .grid-21 { grid-template-columns: 1fr; }
 }
 
 /* ── TOAST ── */
 .toast-container {
-position: fixed; bottom: 20px; right: 20px;
-z-index: 999; display: flex; flex-direction: column; gap: 8px;
+  position: fixed; bottom: 20px; right: 20px;
+  z-index: 999; display: flex; flex-direction: column; gap: 8px;
 }
 .toast {
-background: var(–panel2);
-border: 1px solid var(–border2);
-border-radius: var(–radius);
-padding: 12px 16px;
-font-size: 0.85rem;
-min-width: 260px;
-animation: toastIn 0.3s ease;
-display: flex; align-items: center; gap: 10px;
+  background: var(--panel2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  min-width: 260px;
+  animation: toastIn 0.3s ease;
+  display: flex; align-items: center; gap: 10px;
 }
 @keyframes toastIn { from { transform: translateX(100%); opacity:0; } to { transform:translateX(0); opacity:1; } }
 
 /* ── SLIDER ── */
 .slider-wrap { display: flex; align-items: center; gap: 12px; }
 input[type=range] {
-flex: 1; accent-color: var(–amber);
-background: var(–border); height: 4px; border-radius: 2px;
+  flex: 1; accent-color: var(--amber);
+  background: var(--border); height: 4px; border-radius: 2px;
 }
 .slider-val {
-font-family: ‘Space Mono’, monospace;
-font-size: 0.8rem; color: var(–amber);
-min-width: 50px; text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem; color: var(--amber);
+  min-width: 50px; text-align: right;
 }
 
 /* ── DONUT CHART ── */
@@ -582,17 +581,17 @@ min-width: 50px; text-align: right;
 /* ── CALENDAR STRIP ── */
 .cal-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
 .cal-day {
-min-width: 52px; padding: 8px;
-background: var(–panel); border: 1px solid var(–border);
-border-radius: var(–radius); text-align: center;
-cursor: pointer; transition: var(–transition);
+  min-width: 52px; padding: 8px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); text-align: center;
+  cursor: pointer; transition: var(--transition);
 }
-.cal-day:hover { border-color: var(–border2); }
-.cal-day.active { background: var(–amber-dim); border-color: var(–amber); }
-.cal-day.has-event { border-color: var(–blue); }
-.cal-day-num { font-family: ‘Space Mono’, monospace; font-size: 0.85rem; font-weight: 700; }
-.cal-day-name { font-size: 0.65rem; color: var(–text3); }
-.cal-event-dot { width: 4px; height: 4px; border-radius: 50%; background: var(–blue); margin: 2px auto 0; }
+.cal-day:hover { border-color: var(--border2); }
+.cal-day.active { background: var(--amber-dim); border-color: var(--amber); }
+.cal-day.has-event { border-color: var(--blue); }
+.cal-day-num { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; }
+.cal-day-name { font-size: 0.65rem; color: var(--text3); }
+.cal-event-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--blue); margin: 2px auto 0; }
 
 /* Utility */
 .mt8 { margin-top: 8px; }
@@ -608,25 +607,23 @@ cursor: pointer; transition: var(–transition);
 .gap8 { gap: 8px; }
 .gap12 { gap: 12px; }
 .gap16 { gap: 16px; }
-.text-amber { color: var(–amber); }
-.text-green { color: var(–green); }
-.text-red { color: var(–red); }
-.text-blue { color: var(–blue); }
-.text-muted { color: var(–text3); }
+.text-amber { color: var(--amber); }
+.text-green { color: var(--green); }
+.text-red { color: var(--red); }
+.text-blue { color: var(--blue); }
+.text-muted { color: var(--text3); }
 .text-sm { font-size: 0.8rem; }
 .text-xs { font-size: 0.7rem; }
-.font-mono { font-family: ‘Space Mono’, monospace; }
-.font-cond { font-family: ‘Barlow Condensed’, sans-serif; }
+.font-mono { font-family: 'Space Mono', monospace; }
+.font-cond { font-family: 'Barlow Condensed', sans-serif; }
 .fw7 { font-weight: 700; }
 .w-full { width: 100%; }
-.separator { border: none; border-top: 1px solid var(–border); margin: 20px 0; }
+.separator { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 </style>
-
 </head>
 <body>
 
 <!-- TOPBAR -->
-
 <div class="topbar">
   <div class="logo">
     <div class="logo-icon"></div>
@@ -653,7 +650,6 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- SIDEBAR -->
-
 <div class="sidebar" id="sidebar">
   <div class="nav-section">
     <div class="nav-label">Übersicht</div>
@@ -716,13 +712,11 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- MAIN CONTENT -->
-
 <div class="main">
 
 <!-- ════════════════════════════════════════
      DASHBOARD
 ════════════════════════════════════════ -->
-
 <div class="view active" id="view-dashboard">
   <div class="page-header">
     <div>
@@ -736,7 +730,6 @@ cursor: pointer; transition: var(–transition);
   </div>
 
   <!-- KPIs -->
-
   <div class="grid-4 mb16">
     <div class="kpi-card amber">
       <div class="kpi-icon">👥</div>
@@ -813,7 +806,6 @@ cursor: pointer; transition: var(–transition);
   </div>
 
   <!-- Alerts -->
-
   <div class="card">
     <div class="card-header"><div class="card-title">⚠️ Aktuelle Hinweise</div></div>
     <div id="dashAlerts"></div>
@@ -823,7 +815,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      BEDARFSANFORDERUNG
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-bedarfsanforderung">
   <div class="page-header">
     <div>
@@ -837,7 +828,6 @@ cursor: pointer; transition: var(–transition);
   </div>
 
   <!-- Department selector -->
-
   <div class="dept-tabs mb16" id="deptTabs">
     <div class="dept-tab active" onclick="selectDept(this,'ABT-1')">ABT-1: Planung</div>
     <div class="dept-tab" onclick="selectDept(this,'ABT-2')">ABT-2: Logistik</div>
@@ -847,7 +837,6 @@ cursor: pointer; transition: var(–transition);
   </div>
 
   <!-- Step indicator -->
-
   <div class="steps mb16">
     <div class="step active" id="step1"><div class="step-num">1</div><div class="step-label">Stammdaten</div></div>
     <div class="step-line" id="line12"></div>
@@ -1004,112 +993,109 @@ cursor: pointer; transition: var(–transition);
     </div>
     <div class="alert alert-amber">⚠️ Kapazitätsbereich: 20 bis 5.000 Mitarbeiter</div>
 
-```
-<!-- Einzelpersonen-Tabelle -->
-<div class="mb16">
-  <div class="card-title mb8" style="margin-bottom:10px;">Personenliste</div>
-  <div class="table-wrap">
-    <table id="personTable">
-      <thead>
-        <tr>
-          <th>Nachname</th>
-          <th>Vorname</th>
-          <th>Personal-ID</th>
-          <th>Abteilung</th>
-          <th>Funktion</th>
-          <th>Aktion</th>
-        </tr>
-      </thead>
-      <tbody id="personTableBody">
-        <tr>
-          <td><input class="form-control" placeholder="Mustermann" style="min-width:120px"></td>
-          <td><input class="form-control" placeholder="Hans" style="min-width:100px"></td>
-          <td><input class="form-control" placeholder="P-0001" style="min-width:90px"></td>
-          <td><select class="form-control" style="min-width:130px">
-            <option>ABT-1: Planung</option><option>ABT-2: Logistik</option>
-            <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
-          </select></td>
-          <td><input class="form-control" placeholder="Techniker" style="min-width:110px"></td>
-          <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<hr class="separator">
-<div class="card-title mb8">Gesamtkapazität</div>
-<div class="form-row-3">
-  <div class="form-group">
-    <label class="form-label">Gesamte Mitarbeiteranzahl</label>
-    <div class="slider-wrap">
-      <input type="range" min="20" max="5000" value="50" id="personalSlider" oninput="updatePersonalSlider()">
-      <span class="slider-val" id="personalVal">50</span>
+    <!-- Einzelpersonen-Tabelle -->
+    <div class="mb16">
+      <div class="card-title mb8" style="margin-bottom:10px;">Personenliste</div>
+      <div class="table-wrap">
+        <table id="personTable">
+          <thead>
+            <tr>
+              <th>Nachname</th>
+              <th>Vorname</th>
+              <th>Personal-ID</th>
+              <th>Abteilung</th>
+              <th>Funktion</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="personTableBody">
+            <tr>
+              <td><input class="form-control" placeholder="Mustermann" style="min-width:120px"></td>
+              <td><input class="form-control" placeholder="Hans" style="min-width:100px"></td>
+              <td><input class="form-control" placeholder="P-0001" style="min-width:90px"></td>
+              <td><select class="form-control" style="min-width:130px">
+                <option>ABT-1: Planung</option><option>ABT-2: Logistik</option>
+                <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
+              </select></td>
+              <td><input class="form-control" placeholder="Techniker" style="min-width:110px"></td>
+              <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <input type="number" class="form-control mt8" id="personalInput" value="50" min="20" max="5000" oninput="syncPersonalInput()">
-  </div>
-  <div class="form-group">
-    <label class="form-label">Davon Phase 1 (Transit)</label>
-    <input type="number" class="form-control" id="pers1" value="0" min="0">
-  </div>
-  <div class="form-group">
-    <label class="form-label">Davon Phase 2 (Final Location)</label>
-    <input type="number" class="form-control" id="pers2" value="0" min="0">
-  </div>
-</div>
-<div class="form-row-3">
-  <div class="form-group">
-    <label class="form-label">Offiziere / Führungspersonal</label>
-    <input type="number" class="form-control" id="persOff" value="0" min="0">
-  </div>
-  <div class="form-group">
-    <label class="form-label">Technisches Personal</label>
-    <input type="number" class="form-control" id="persTech" value="0" min="0">
-  </div>
-  <div class="form-group">
-    <label class="form-label">Unterstützungspersonal</label>
-    <input type="number" class="form-control" id="persSupp" value="0" min="0">
-  </div>
-</div>
-<div class="form-row">
-  <div class="form-group">
-    <label class="form-label">Unterkunftstyp</label>
-    <select class="form-control" id="unterkunftTyp">
-      <option>Hotel (Standard)</option>
-      <option>Hotel (Business)</option>
-      <option>Feldlager / Zelt</option>
-      <option>Modulare Gebäude</option>
-      <option>Kaserne / Quartier</option>
-      <option>Mischbelegung</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label class="form-label">Zimmertyp</label>
-    <select class="form-control" id="zimmerTyp">
-      <option>Einzelzimmer</option>
-      <option>Doppelzimmer</option>
-      <option>Mehrbettzimmer (4er)</option>
-      <option>Mehrbettzimmer (6er)</option>
-      <option>Gemischt</option>
-    </select>
-  </div>
-</div>
-<div class="form-row">
-  <div class="form-group">
-    <label class="form-label">Besondere Anforderungen (Medizin / Diät)</label>
-    <textarea class="form-control" rows="2" id="persSpecial" placeholder="z.B. Vegetarisch, Diabetiker, Rollstuhlfahrer..."></textarea>
-  </div>
-  <div class="form-group">
-    <label class="form-label">Sicherheitspersonal erforderlich?</label>
-    <select class="form-control" id="persSecurity">
-      <option>Nein</option>
-      <option>Ja — Bewachung Unterkunft</option>
-      <option>Ja — Personenschutz</option>
-      <option>Ja — Beides</option>
-    </select>
-  </div>
-</div>
-```
-
+    <hr class="separator">
+    <div class="card-title mb8">Gesamtkapazität</div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Gesamte Mitarbeiteranzahl</label>
+        <div class="slider-wrap">
+          <input type="range" min="20" max="5000" value="50" id="personalSlider" oninput="updatePersonalSlider()">
+          <span class="slider-val" id="personalVal">50</span>
+        </div>
+        <input type="number" class="form-control mt8" id="personalInput" value="50" min="20" max="5000" oninput="syncPersonalInput()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Davon Phase 1 (Transit)</label>
+        <input type="number" class="form-control" id="pers1" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Davon Phase 2 (Final Location)</label>
+        <input type="number" class="form-control" id="pers2" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Offiziere / Führungspersonal</label>
+        <input type="number" class="form-control" id="persOff" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Technisches Personal</label>
+        <input type="number" class="form-control" id="persTech" value="0" min="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unterstützungspersonal</label>
+        <input type="number" class="form-control" id="persSupp" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Unterkunftstyp</label>
+        <select class="form-control" id="unterkunftTyp">
+          <option>Hotel (Standard)</option>
+          <option>Hotel (Business)</option>
+          <option>Feldlager / Zelt</option>
+          <option>Modulare Gebäude</option>
+          <option>Kaserne / Quartier</option>
+          <option>Mischbelegung</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Zimmertyp</label>
+        <select class="form-control" id="zimmerTyp">
+          <option>Einzelzimmer</option>
+          <option>Doppelzimmer</option>
+          <option>Mehrbettzimmer (4er)</option>
+          <option>Mehrbettzimmer (6er)</option>
+          <option>Gemischt</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Besondere Anforderungen (Medizin / Diät)</label>
+        <textarea class="form-control" rows="2" id="persSpecial" placeholder="z.B. Vegetarisch, Diabetiker, Rollstuhlfahrer..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sicherheitspersonal erforderlich?</label>
+        <select class="form-control" id="persSecurity">
+          <option>Nein</option>
+          <option>Ja — Bewachung Unterkunft</option>
+          <option>Ja — Personenschutz</option>
+          <option>Ja — Beides</option>
+        </select>
+      </div>
+    </div>
   </div>
   </div>
 
@@ -1216,90 +1202,87 @@ cursor: pointer; transition: var(–transition);
       <button class="btn btn-ghost btn-sm" onclick="addFahrzeugRow()">+ Fahrzeug hinzufügen</button>
     </div>
 
-```
-<!-- Fahrzeug-Tabelle: Kennzeichen + Typ korrespondieren -->
-<div class="mb16">
-  <div class="table-wrap">
-    <table id="fahrzeugTable">
-      <thead>
-        <tr>
-          <th>Kategorie</th>
-          <th>Kennzeichen</th>
-          <th>Typ / Modell</th>
-          <th>Zuladung</th>
-          <th>Anhänger</th>
-          <th>Abstellfläche (m²)</th>
-          <th>ADR</th>
-          <th>Aktion</th>
-        </tr>
-      </thead>
-      <tbody id="fahrzeugTableBody">
-        <tr>
-          <td><select class="form-control fz-kat-select" style="min-width:130px" onchange="updateFahrzeugTyp(this)">
-            <option value="lkw">🚛 LKW</option>
-            <option value="pkw">🚗 PKW</option>
-            <option value="bus">🚌 Bus</option>
-            <option value="container">📦 Container</option>
-            <option value="transporter">🚐 Transporter</option>
-          </select></td>
-          <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td>
-          <td><select class="form-control fz-typ-select" style="min-width:175px" onchange="autoFlaeche(this)">
-            <option value="Standard-LKW (7,5t)" data-flaeche="42" data-zuladung="7,5t">Standard-LKW (7,5t)</option>
-            <option value="LKW 15t" data-flaeche="50" data-zuladung="15t">LKW 15t</option>
-            <option value="Schwerlast-LKW (40t)" data-flaeche="56" data-zuladung="40t">Schwerlast-LKW (40t)</option>
-            <option value="Kühlfahrzeug" data-flaeche="45" data-zuladung="variabel">Kühlfahrzeug</option>
-            <option value="Tankfahrzeug" data-flaeche="48" data-zuladung="variabel">Tankfahrzeug</option>
-            <option value="Sattelzug" data-flaeche="70" data-zuladung="25t">Sattelzug</option>
-          </select></td>
-          <td><input class="form-control fz-zuladung" placeholder="auto" style="min-width:90px" readonly style="color:var(--amber)"></td>
-          <td><select class="form-control fz-anhaenger" style="min-width:140px" onchange="autoFlaeche(this.closest('tr').querySelector('.fz-typ-select'))">
-            <option value="0">— Kein Anhänger</option>
-            <option value="20">Einachsanhänger (+20m²)</option>
-            <option value="30">Tandemanhänger (+30m²)</option>
-            <option value="40">Sattelauflieger (+40m²)</option>
-            <option value="14">Containeranhänger 20ft (+14m²)</option>
-            <option value="28">Containeranhänger 40ft (+28m²)</option>
-          </select></td>
-          <td><input class="form-control fz-flaeche" type="number" placeholder="auto" style="min-width:80px;color:var(--amber)" oninput="updateGesamtflaeche()"></td>
-          <td><select class="form-control" style="min-width:120px">
-            <option>Kein ADR</option>
-            <option>ADR Klasse 1</option>
-            <option>ADR Klasse 2</option>
-            <option>ADR Klasse 3</option>
-            <option>ADR Klasse 7</option>
-          </select></td>
-          <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="flex items-center gap12 mt12" style="padding:10px; background:var(--bg3); border-radius:var(--radius); border:1px solid var(--border);">
-    <span class="text-sm text-muted">Gesamte Abstellfläche:</span>
-    <span class="font-mono text-amber fw7" id="gesamtFlaeche">0 m²</span>
-    <span class="text-sm text-muted" style="margin-left:auto">Fahrzeuge gesamt:</span>
-    <span class="font-mono text-amber fw7" id="fahrzeugCount">1</span>
-  </div>
-</div>
+    <!-- Fahrzeug-Tabelle: Kennzeichen + Typ korrespondieren -->
+    <div class="mb16">
+      <div class="table-wrap">
+        <table id="fahrzeugTable">
+          <thead>
+            <tr>
+              <th>Kategorie</th>
+              <th>Kennzeichen</th>
+              <th>Typ / Modell</th>
+              <th>Zuladung</th>
+              <th>Anhänger</th>
+              <th>Abstellfläche (m²)</th>
+              <th>ADR</th>
+              <th>Aktion</th>
+            </tr>
+          </thead>
+          <tbody id="fahrzeugTableBody">
+            <tr>
+              <td><select class="form-control fz-kat-select" style="min-width:130px" onchange="updateFahrzeugTyp(this)">
+                <option value="lkw">🚛 LKW</option>
+                <option value="pkw">🚗 PKW</option>
+                <option value="bus">🚌 Bus</option>
+                <option value="container">📦 Container</option>
+                <option value="transporter">🚐 Transporter</option>
+              </select></td>
+              <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td>
+              <td><select class="form-control fz-typ-select" style="min-width:175px" onchange="autoFlaeche(this)">
+                <option value="Standard-LKW (7,5t)" data-flaeche="42" data-zuladung="7,5t">Standard-LKW (7,5t)</option>
+                <option value="LKW 15t" data-flaeche="50" data-zuladung="15t">LKW 15t</option>
+                <option value="Schwerlast-LKW (40t)" data-flaeche="56" data-zuladung="40t">Schwerlast-LKW (40t)</option>
+                <option value="Kühlfahrzeug" data-flaeche="45" data-zuladung="variabel">Kühlfahrzeug</option>
+                <option value="Tankfahrzeug" data-flaeche="48" data-zuladung="variabel">Tankfahrzeug</option>
+                <option value="Sattelzug" data-flaeche="70" data-zuladung="25t">Sattelzug</option>
+              </select></td>
+              <td><input class="form-control fz-zuladung" placeholder="auto" style="min-width:90px" readonly style="color:var(--amber)"></td>
+              <td><select class="form-control fz-anhaenger" style="min-width:140px" onchange="autoFlaeche(this.closest('tr').querySelector('.fz-typ-select'))">
+                <option value="0">— Kein Anhänger</option>
+                <option value="20">Einachsanhänger (+20m²)</option>
+                <option value="30">Tandemanhänger (+30m²)</option>
+                <option value="40">Sattelauflieger (+40m²)</option>
+                <option value="14">Containeranhänger 20ft (+14m²)</option>
+                <option value="28">Containeranhänger 40ft (+28m²)</option>
+              </select></td>
+              <td><input class="form-control fz-flaeche" type="number" placeholder="auto" style="min-width:80px;color:var(--amber)" oninput="updateGesamtflaeche()"></td>
+              <td><select class="form-control" style="min-width:120px">
+                <option>Kein ADR</option>
+                <option>ADR Klasse 1</option>
+                <option>ADR Klasse 2</option>
+                <option>ADR Klasse 3</option>
+                <option>ADR Klasse 7</option>
+              </select></td>
+              <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="flex items-center gap12 mt12" style="padding:10px; background:var(--bg3); border-radius:var(--radius); border:1px solid var(--border);">
+        <span class="text-sm text-muted">Gesamte Abstellfläche:</span>
+        <span class="font-mono text-amber fw7" id="gesamtFlaeche">0 m²</span>
+        <span class="text-sm text-muted" style="margin-left:auto">Fahrzeuge gesamt:</span>
+        <span class="font-mono text-amber fw7" id="fahrzeugCount">1</span>
+      </div>
+    </div>
 
-<hr class="separator">
-<div class="grid-2">
-  <div class="form-group">
-    <label class="form-label">Transfer-Typ</label>
-    <select class="form-control" id="tTransfer">
-      <option>Eigentransport</option>
-      <option>Charterprovider</option>
-      <option>Linienflug + Bodentransport</option>
-      <option>Seeweg + Bodentransport</option>
-      <option>Bahn + Bodentransport</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label class="form-label">Container (Anzahl zusätzlich)</label>
-    <input type="number" class="form-control" id="tContainer" value="0" min="0">
-  </div>
-</div>
-```
-
+    <hr class="separator">
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Transfer-Typ</label>
+        <select class="form-control" id="tTransfer">
+          <option>Eigentransport</option>
+          <option>Charterprovider</option>
+          <option>Linienflug + Bodentransport</option>
+          <option>Seeweg + Bodentransport</option>
+          <option>Bahn + Bodentransport</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Container (Anzahl zusätzlich)</label>
+        <input type="number" class="form-control" id="tContainer" value="0" min="0">
+      </div>
+    </div>
   </div>
   </div>
 
@@ -1325,7 +1308,6 @@ cursor: pointer; transition: var(–transition);
   </div>
 
   <!-- Form Navigation -->
-
   <div class="flex justify-between mt16 no-print">
     <button class="btn btn-ghost" id="prevStepBtn" onclick="prevStep()" style="visibility:hidden">◀ Zurück</button>
     <div class="text-muted text-sm" id="stepLabel">Schritt 1 von 5</div>
@@ -1336,7 +1318,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      PHASE 1 — TRANSIT
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-phase1">
   <div class="page-header">
     <div>
@@ -1414,7 +1395,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      PHASE 2 — FINAL LOCATION
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-phase2">
   <div class="page-header">
     <div>
@@ -1455,7 +1435,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      SERVICES
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-services">
   <div class="page-header">
     <div>
@@ -1481,7 +1460,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      PERSONAL
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-personal">
   <div class="page-header">
     <div>
@@ -1539,7 +1517,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      TRANSPORT
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-transport">
   <div class="page-header">
     <div>
@@ -1595,7 +1572,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      ABRECHNUNG
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-abrechnung">
   <div class="page-header">
     <div>
@@ -1656,7 +1632,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      PARTNER / BEHÖRDEN
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-partner">
   <div class="page-header">
     <div>
@@ -1693,7 +1668,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      VORLAGEN
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-vorlagen">
   <div class="page-header">
     <div>
@@ -1709,7 +1683,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      ABTEILUNGEN
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-abteilungen">
   <div class="page-header">
     <div>
@@ -1725,7 +1698,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      KARTE
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-karte">
   <div class="page-header">
     <div>
@@ -1768,7 +1740,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      KALENDER
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-kalender">
   <div class="page-header">
     <div>
@@ -1811,7 +1782,6 @@ cursor: pointer; transition: var(–transition);
 <!-- ════════════════════════════════════════
      EINSTELLUNGEN
 ════════════════════════════════════════ -->
-
 <div class="view" id="view-einstellungen">
   <div class="page-header">
     <div><div class="page-title">Ein<span>stellungen</span></div></div>
@@ -1855,7 +1825,6 @@ cursor: pointer; transition: var(–transition);
 ════════════════════════════════════════ -->
 
 <!-- ALERT MODAL -->
-
 <div class="modal-overlay" id="alertModal">
   <div class="modal" style="max-width:500px">
     <div class="modal-header">
@@ -1875,7 +1844,6 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- EXPORT MODAL -->
-
 <div class="modal-overlay" id="exportModal">
   <div class="modal" style="max-width:460px">
     <div class="modal-header">
@@ -1917,7 +1885,6 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- NEW TRANSIT MODAL -->
-
 <div class="modal-overlay" id="newTransitModal">
   <div class="modal">
     <div class="modal-header">
@@ -1960,7 +1927,6 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- NEW RECHNUNG MODAL -->
-
 <div class="modal-overlay" id="newRechnungModal">
   <div class="modal">
     <div class="modal-header">
@@ -1991,7 +1957,6 @@ cursor: pointer; transition: var(–transition);
 </div>
 
 <!-- IMPORT PERSONAL MODAL -->
-
 <div class="modal-overlay" id="importPersonalModal">
   <div class="modal" style="max-width:500px">
     <div class="modal-header">
@@ -2015,8 +1980,8 @@ cursor: pointer; transition: var(–transition);
   </div>
 </div>
 
-<!-- TIME ADJUST MODAL -->
 
+<!-- TIME ADJUST MODAL -->
 <div class="modal-overlay" id="timeModal">
   <div class="modal" style="max-width:400px">
     <div class="modal-header">
@@ -2079,8 +2044,8 @@ cursor: pointer; transition: var(–transition);
   </div>
 </div>
 
-<!-- SAVE / FALLBACK MODAL -->
 
+<!-- SAVE / FALLBACK MODAL -->
 <div class="modal-overlay" id="saveModal">
   <div class="modal" style="max-width:560px">
     <div class="modal-header">
@@ -2092,37 +2057,33 @@ cursor: pointer; transition: var(–transition);
         ℹ️ <strong>So speicherst du die App auf dem iPad:</strong>
       </div>
 
-```
-  <!-- Methode 1 -->
-  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
-    <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--amber);">Methode 1 — Empfohlen</div>
-    <div class="text-sm" style="line-height:1.8;">
-      1. Tippe auf <strong>„Neuen Tab öffnen"</strong> unten<br>
-      2. Im neuen Tab: Tippe auf das <strong>Teilen-Symbol ↑</strong> oben in Safari<br>
-      3. Wähle <strong>„In Dateien sichern"</strong><br>
-      4. Speicherort wählen → <strong>Sichern</strong>
+      <!-- Methode 1 -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;">
+        <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--amber);">Methode 1 — Empfohlen</div>
+        <div class="text-sm" style="line-height:1.8;">
+          1. Tippe auf <strong>„Neuen Tab öffnen"</strong> unten<br>
+          2. Im neuen Tab: Tippe auf das <strong>Teilen-Symbol ↑</strong> oben in Safari<br>
+          3. Wähle <strong>„In Dateien sichern"</strong><br>
+          4. Speicherort wählen → <strong>Sichern</strong>
+        </div>
+        <button class="btn btn-primary mt12" onclick="openInNewTab()">🔗 Neuen Tab öffnen</button>
+      </div>
+
+      <!-- Methode 2 -->
+      <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
+        <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--text2);">Methode 2 — Code kopieren</div>
+        <div class="text-sm text-muted" style="margin-bottom:10px;">Kompletten Code kopieren → In Texteditor (z.B. Notizen) einfügen → Als .html speichern</div>
+        <textarea id="saveContent" class="form-control" rows="4" readonly style="font-size:0.65rem;font-family:monospace;resize:none;"></textarea>
+        <button class="btn btn-outline mt8" onclick="copySaveContent()">📋 Code kopieren</button>
+      </div>
     </div>
-    <button class="btn btn-primary mt12" onclick="openInNewTab()">🔗 Neuen Tab öffnen</button>
-  </div>
-
-  <!-- Methode 2 -->
-  <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:16px;">
-    <div class="font-cond fw7" style="font-size:1rem;margin-bottom:8px;color:var(--text2);">Methode 2 — Code kopieren</div>
-    <div class="text-sm text-muted" style="margin-bottom:10px;">Kompletten Code kopieren → In Texteditor (z.B. Notizen) einfügen → Als .html speichern</div>
-    <textarea id="saveContent" class="form-control" rows="4" readonly style="font-size:0.65rem;font-family:monospace;resize:none;"></textarea>
-    <button class="btn btn-outline mt8" onclick="copySaveContent()">📋 Code kopieren</button>
-  </div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-ghost" onclick="closeModal('saveModal')">Schließen</button>
-</div>
-```
-
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('saveModal')">Schließen</button>
+    </div>
   </div>
 </div>
 
 <!-- TOAST CONTAINER -->
-
 <div class="toast-container" id="toasts"></div>
 
 <script>
@@ -2670,7 +2631,6 @@ const _vorlagenInhalte = {
   .sig-line { border-bottom: 1px solid #000; margin-top: 40px; }
   @media print { body { margin: 20px; } }
 </style></head><body>
-
 <h1>📋 BEDARFSANFORDERUNG</h1>
 <div class="header-info">
   <div class="grid">
@@ -3092,77 +3052,98 @@ table{width:100%;border-collapse:collapse;margin:10px 0}td,th{border:1px solid #
 };
 
 async function downloadVorlage(name) {
-const vorlage = _vorlagenInhalte[name];
-if (!vorlage) { showToast(‘⚠️ Vorlage nicht gefunden’, ‘red’); return; }
+  const vorlage = _vorlagenInhalte[name];
+  if (!vorlage) { showToast('⚠️ Vorlage nicht gefunden', 'red'); return; }
 
-const inhalt = vorlage.content();
-const blob = new Blob([inhalt], { type: vorlage.mime + ‘;charset=utf-8’ });
-const dateiname = name.replace(/[^a-zA-Z0-9äöüÄÖÜß\s]/g,’’).replace(/\s+/g,’-’) + ‘.’ + vorlage.ext;
-const file = new File([blob], dateiname, { type: vorlage.mime });
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const inhalt = vorlage.content();
+  const blob = new Blob([inhalt], { type: vorlage.mime + ';charset=utf-8' });
+  const dateiname = name.replace(/[^a-zA-Z0-9äöüÄÖÜß\s]/g,'').replace(/\s+/g,'-') + '.' + vorlage.ext;
+  const file = new File([blob], dateiname, { type: vorlage.mime });
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-// iOS: Web Share API → nativer Speicherdialog
-if (isIOS && navigator.canShare && navigator.canShare({ files: [file] })) {
-try {
-await navigator.share({ files: [file], title: name });
-return;
-} catch(e) {
-if (e.name === ‘AbortError’) return;
-}
+  // iOS: Web Share API → nativer Speicherdialog
+  if (isIOS && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: name });
+      return;
+    } catch(e) {
+      if (e.name === 'AbortError') return;
+    }
+  }
+
+  // Desktop / Fallback
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = dateiname;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+  showToast('📥 ' + dateiname + ' wird gespeichert...', 'blue');
 }
 
-// Desktop / Fallback
-const url = URL.createObjectURL(blob);
-const a = document.createElement(‘a’);
-a.href = url; a.download = dateiname;
-document.body.appendChild(a); a.click();
-setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
-showToast(‘📥 ’ + dateiname + ’ wird gespeichert…’, ‘blue’);
-}
 
 // ══════════════════════════════════════════════
 // RENDER ABTEILUNGEN
 // ══════════════════════════════════════════════
 function renderAbteilungen() {
-const ac = document.getElementById(‘abteilungCards’);
-ac.innerHTML = depts.map(d => `<div class="card"> <div class="card-header"> <div class="card-title">${d.id}</div> <span class="badge badge-${d.color === 'amber' ? 'amber' : d.color === 'blue' ? 'blue' : d.color === 'green' ? 'green' : 'red'}">${d.requests} Anforderungen</span> </div> <div class="fw7 font-cond" style="font-size:1.2rem; margin-bottom:8px;">${d.name}</div> <div class="text-sm text-muted mb16">Leiter: ${d.lead}</div> <div class="flex gap8"> <button class="btn btn-outline btn-sm" onclick="showView('bedarfsanforderung'); selectDeptById('${d.id}')">Neue Anforderung</button> <button class="btn btn-ghost btn-sm">Anforderungen anzeigen</button> </div> </div>`).join(’’);
+  const ac = document.getElementById('abteilungCards');
+  ac.innerHTML = depts.map(d => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${d.id}</div>
+        <span class="badge badge-${d.color === 'amber' ? 'amber' : d.color === 'blue' ? 'blue' : d.color === 'green' ? 'green' : 'red'}">${d.requests} Anforderungen</span>
+      </div>
+      <div class="fw7 font-cond" style="font-size:1.2rem; margin-bottom:8px;">${d.name}</div>
+      <div class="text-sm text-muted mb16">Leiter: ${d.lead}</div>
+      <div class="flex gap8">
+        <button class="btn btn-outline btn-sm" onclick="showView('bedarfsanforderung'); selectDeptById('${d.id}')">Neue Anforderung</button>
+        <button class="btn btn-ghost btn-sm">Anforderungen anzeigen</button>
+      </div>
+    </div>
+  `).join('');
 
-// Settings dept config
-const dc = document.getElementById(‘deptConfig’);
-if (dc) {
-dc.innerHTML = depts.map(d => `<div style="display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);"> <div style="flex:1;"> <div class="font-cond fw7">${d.id}: ${d.name}</div> <div class="text-xs text-muted">Leiter: ${d.lead}</div> </div> <input class="form-control" style="width:160px" value="${d.lead}" placeholder="Leiter"> </div>`).join(’’);
-}
+  // Settings dept config
+  const dc = document.getElementById('deptConfig');
+  if (dc) {
+    dc.innerHTML = depts.map(d => `
+      <div style="display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--border);">
+        <div style="flex:1;">
+          <div class="font-cond fw7">${d.id}: ${d.name}</div>
+          <div class="text-xs text-muted">Leiter: ${d.lead}</div>
+        </div>
+        <input class="form-control" style="width:160px" value="${d.lead}" placeholder="Leiter">
+      </div>
+    `).join('');
+  }
 }
 
 // ══════════════════════════════════════════════
 // RENDER CALENDAR
 // ══════════════════════════════════════════════
 function renderCalendar() {
-const strip = document.getElementById(‘calStrip’);
-const today = new Date();
-strip.innerHTML = ‘’;
-for (let i = 0; i < 30; i++) {
-const d = new Date(today); d.setDate(today.getDate() + i);
-const ds = d.toISOString().substring(0,10);
-const hasEvent = kalenderEvents.some(e => e.datum === ds);
-const day = document.createElement(‘div’);
-day.className = ‘cal-day’ + (i===0?’ active’:’’) + (hasEvent?’ has-event’:’’);
-const wd = d.toLocaleDateString(‘de-DE’,{weekday:‘short’});
-const dn = d.getDate();
-day.innerHTML = `<div class="cal-day-name">${wd}</div><div class="cal-day-num">${dn}</div>${hasEvent?'<div class="cal-event-dot"></div>':''}`;
-day.onclick = () => { document.querySelectorAll(’.cal-day’).forEach(x=>x.classList.remove(‘active’)); day.classList.add(‘active’); };
-strip.appendChild(day);
-}
+  const strip = document.getElementById('calStrip');
+  const today = new Date();
+  strip.innerHTML = '';
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(today); d.setDate(today.getDate() + i);
+    const ds = d.toISOString().substring(0,10);
+    const hasEvent = kalenderEvents.some(e => e.datum === ds);
+    const day = document.createElement('div');
+    day.className = 'cal-day' + (i===0?' active':'') + (hasEvent?' has-event':'');
+    const wd = d.toLocaleDateString('de-DE',{weekday:'short'});
+    const dn = d.getDate();
+    day.innerHTML = `<div class="cal-day-name">${wd}</div><div class="cal-day-num">${dn}</div>${hasEvent?'<div class="cal-event-dot"></div>':''}`;
+    day.onclick = () => { document.querySelectorAll('.cal-day').forEach(x=>x.classList.remove('active')); day.classList.add('active'); };
+    strip.appendChild(day);
+  }
 
-const kt = document.getElementById(‘kalenderTable’);
-kt.innerHTML = kalenderEvents.map(e => `<tr>
-<td class="font-mono text-amber">${e.datum}</td>
-<td>${e.name}</td>
-<td><span class="badge badge-blue">${e.abt}</span></td>
-<td>${e.land}</td>
-<td>${e.pers > 0 ? e.pers : ‘—’}</td>
-<td><span class="badge badge-gray">${e.typ}</span></td>
-
+  const kt = document.getElementById('kalenderTable');
+  kt.innerHTML = kalenderEvents.map(e => `<tr>
+    <td class="font-mono text-amber">${e.datum}</td>
+    <td>${e.name}</td>
+    <td><span class="badge badge-blue">${e.abt}</span></td>
+    <td>${e.land}</td>
+    <td>${e.pers > 0 ? e.pers : '—'}</td>
+    <td><span class="badge badge-gray">${e.typ}</span></td>
   </tr>`).join('');
 }
 
@@ -3172,143 +3153,178 @@ kt.innerHTML = kalenderEvents.map(e => `<tr>
 let currentStep = 1;
 
 function showStep(step) {
-for (let i=1; i<=5; i++) {
-const el = document.getElementById(‘formStep’+i);
-if (el) el.style.display = i===step ? ‘block’ : ‘none’;
-const sEl = document.getElementById(‘step’+i);
-if (sEl) {
-sEl.classList.remove(‘active’,‘done’);
-if (i < step) sEl.classList.add(‘done’);
-if (i === step) sEl.classList.add(‘active’);
-}
-const lineEl = document.getElementById(‘line’+i+(i+1));
-if (lineEl) lineEl.classList.toggle(‘done’, i < step);
-}
-document.getElementById(‘prevStepBtn’).style.visibility = step > 1 ? ‘visible’ : ‘hidden’;
-document.getElementById(‘nextStepBtn’).textContent = step === 5 ? ‘Einreichen ✅’ : ‘Weiter ▶’;
-document.getElementById(‘stepLabel’).textContent = ‘Schritt ’ + step + ’ von 5’;
-if (step === 5) updateSummary();
+  for (let i=1; i<=5; i++) {
+    const el = document.getElementById('formStep'+i);
+    if (el) el.style.display = i===step ? 'block' : 'none';
+    const sEl = document.getElementById('step'+i);
+    if (sEl) {
+      sEl.classList.remove('active','done');
+      if (i < step) sEl.classList.add('done');
+      if (i === step) sEl.classList.add('active');
+    }
+    const lineEl = document.getElementById('line'+i+(i+1));
+    if (lineEl) lineEl.classList.toggle('done', i < step);
+  }
+  document.getElementById('prevStepBtn').style.visibility = step > 1 ? 'visible' : 'hidden';
+  document.getElementById('nextStepBtn').textContent = step === 5 ? 'Einreichen ✅' : 'Weiter ▶';
+  document.getElementById('stepLabel').textContent = 'Schritt ' + step + ' von 5';
+  if (step === 5) updateSummary();
 }
 
 function nextStep() {
-if (currentStep < 5) { currentStep++; showStep(currentStep); }
-else submitBedarfsanforderung();
+  if (currentStep < 5) { currentStep++; showStep(currentStep); }
+  else submitBedarfsanforderung();
 }
 
 function prevStep() {
-if (currentStep > 1) { currentStep–; showStep(currentStep); }
+  if (currentStep > 1) { currentStep--; showStep(currentStep); }
 }
 
 function updateSummary() {
-const abt = document.getElementById(‘bdAbt’)?.value || ‘’;
-const phase = document.getElementById(‘bdPhase’)?.value || ‘’;
-const land = document.getElementById(‘bdLand’)?.value || ‘’;
-const standort = document.getElementById(‘bdStandort’)?.value || ‘’;
-const beginn = document.getElementById(‘bdBeginn’)?.value || ‘’;
-const ende = document.getElementById(‘bdEnde’)?.value || ‘’;
-const pers = document.getElementById(‘personalInput’)?.value || ‘0’;
-const lkw = document.getElementById(‘tLkw’)?.value || ‘0’;
-const pkw = document.getElementById(‘tPkw’)?.value || ‘0’;
-const container = document.getElementById(‘tContainer’)?.value || ‘0’;
-const budget = document.getElementById(‘bdBudget’)?.value || ‘0’;
-const prio = document.getElementById(‘bdPrio’)?.value || ‘’;
-const anf = document.getElementById(‘bdAnforderer’)?.value || ‘’;
+  const abt = document.getElementById('bdAbt')?.value || '';
+  const phase = document.getElementById('bdPhase')?.value || '';
+  const land = document.getElementById('bdLand')?.value || '';
+  const standort = document.getElementById('bdStandort')?.value || '';
+  const beginn = document.getElementById('bdBeginn')?.value || '';
+  const ende = document.getElementById('bdEnde')?.value || '';
+  const pers = document.getElementById('personalInput')?.value || '0';
+  const lkw = document.getElementById('tLkw')?.value || '0';
+  const pkw = document.getElementById('tPkw')?.value || '0';
+  const container = document.getElementById('tContainer')?.value || '0';
+  const budget = document.getElementById('bdBudget')?.value || '0';
+  const prio = document.getElementById('bdPrio')?.value || '';
+  const anf = document.getElementById('bdAnforderer')?.value || '';
 
-const s = `══════════════════════════════════ BEDARFSANFORDERUNG — ZUSAMMENFASSUNG ══════════════════════════════════ Abteilung        : ${abt} Phase            : Phase ${phase} Priorität        : ${prio} ────────────────────────────────── EINSATZ Land / Standort  : ${land} / ${standort} Beginn           : ${beginn} Ende             : ${ende} ────────────────────────────────── PERSONAL & SERVICES Gesamtpersonal   : ${pers} Personen ────────────────────────────────── TRANSPORT LKW              : ${lkw} PKW              : ${pkw} Container        : ${container} ────────────────────────────────── FINANZEN Budget (EUR)     : ${budget} ────────────────────────────────── Anforderer       : ${anf} ══════════════════════════════════`;
+  const s = `══════════════════════════════════
+BEDARFSANFORDERUNG — ZUSAMMENFASSUNG
+══════════════════════════════════
+Abteilung        : ${abt}
+Phase            : Phase ${phase}
+Priorität        : ${prio}
+──────────────────────────────────
+EINSATZ
+Land / Standort  : ${land} / ${standort}
+Beginn           : ${beginn}
+Ende             : ${ende}
+──────────────────────────────────
+PERSONAL & SERVICES
+Gesamtpersonal   : ${pers} Personen
+──────────────────────────────────
+TRANSPORT
+LKW              : ${lkw}
+PKW              : ${pkw}
+Container        : ${container}
+──────────────────────────────────
+FINANZEN
+Budget (EUR)     : ${budget}
+──────────────────────────────────
+Anforderer       : ${anf}
+══════════════════════════════════`;
 
-document.getElementById(‘summaryContent’).textContent = s;
+  document.getElementById('summaryContent').textContent = s;
 }
 
 function submitBedarfsanforderung() {
-const id = ‘BD-’ + String(Date.now()).slice(-5);
-document.getElementById(‘bdId’).value = id;
-showToast(‘✅ Anforderung ’ + id + ’ erfolgreich eingereicht!’, ‘green’);
-currentStep = 1;
-showStep(1);
+  const id = 'BD-' + String(Date.now()).slice(-5);
+  document.getElementById('bdId').value = id;
+  showToast('✅ Anforderung ' + id + ' erfolgreich eingereicht!', 'green');
+  currentStep = 1;
+  showStep(1);
 }
 
 // ══════════════════════════════════════════════
 // BEDARFSFORMULAR DEPT SELECTOR
 // ══════════════════════════════════════════════
 function selectDept(el, id) {
-document.querySelectorAll(’.dept-tab’).forEach(t => t.classList.remove(‘active’));
-el.classList.add(‘active’);
-const sel = document.getElementById(‘bdAbt’);
-if (sel) {
-for (let opt of sel.options) {
-if (opt.value.includes(id) || opt.text.includes(id)) { opt.selected = true; break; }
-}
-}
+  document.querySelectorAll('.dept-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  const sel = document.getElementById('bdAbt');
+  if (sel) {
+    for (let opt of sel.options) {
+      if (opt.value.includes(id) || opt.text.includes(id)) { opt.selected = true; break; }
+    }
+  }
 }
 
 function selectDeptById(id) {
-const tabs = document.querySelectorAll(’.dept-tab’);
-tabs.forEach((t,i) => {
-t.classList.remove(‘active’);
-if (t.textContent.includes(id)) t.classList.add(‘active’);
-});
+  const tabs = document.querySelectorAll('.dept-tab');
+  tabs.forEach((t,i) => {
+    t.classList.remove('active');
+    if (t.textContent.includes(id)) t.classList.add('active');
+  });
 }
 
 // ══════════════════════════════════════════════
 // PERSONAL SLIDER
 // ══════════════════════════════════════════════
 function updatePersonalSlider() {
-const v = document.getElementById(‘personalSlider’).value;
-document.getElementById(‘personalVal’).textContent = v;
-document.getElementById(‘personalInput’).value = v;
+  const v = document.getElementById('personalSlider').value;
+  document.getElementById('personalVal').textContent = v;
+  document.getElementById('personalInput').value = v;
 }
 function syncPersonalInput() {
-const v = document.getElementById(‘personalInput’).value;
-document.getElementById(‘personalSlider’).value = v;
-document.getElementById(‘personalVal’).textContent = v;
+  const v = document.getElementById('personalInput').value;
+  document.getElementById('personalSlider').value = v;
+  document.getElementById('personalVal').textContent = v;
 }
 
 // ══════════════════════════════════════════════
 // SAVE ACTIONS
 // ══════════════════════════════════════════════
 function saveTransit() {
-showToast(‘✅ Transit erfolgreich angelegt’, ‘green’);
-closeModal(‘newTransitModal’);
+  showToast('✅ Transit erfolgreich angelegt', 'green');
+  closeModal('newTransitModal');
 }
 function saveRechnung() {
-const nr = ‘RG-2026-’ + String(Date.now()).slice(-3);
-showToast(‘✅ Rechnung ’ + nr + ’ erstellt’, ‘green’);
-closeModal(‘newRechnungModal’);
+  const nr = 'RG-2026-' + String(Date.now()).slice(-3);
+  showToast('✅ Rechnung ' + nr + ' erstellt', 'green');
+  closeModal('newRechnungModal');
 }
 
 // ══════════════════════════════════════════════
 // PRINT
 // ══════════════════════════════════════════════
 function printForm() {
-window.print();
+  window.print();
 }
 
 // ══════════════════════════════════════════════
 // INIT: SET DEFAULT DATES
 // ══════════════════════════════════════════════
 function initDates() {
-const today = new Date().toISOString().substring(0,10);
-const in30 = new Date(); in30.setDate(in30.getDate() + 30);
-const in60 = new Date(); in60.setDate(in60.getDate() + 60);
-const d = document.getElementById(‘bdDatum’);
-const b = document.getElementById(‘bdBeginn’);
-const e = document.getElementById(‘bdEnde’);
-if (d) d.value = today;
-if (b) b.value = in30.toISOString().substring(0,10);
-if (e) e.value = in60.toISOString().substring(0,10);
-// Auto ID
-const bdId = document.getElementById(‘bdId’);
-if (bdId) bdId.value = ‘BD-’ + String(Date.now()).slice(-5);
+  const today = new Date().toISOString().substring(0,10);
+  const in30 = new Date(); in30.setDate(in30.getDate() + 30);
+  const in60 = new Date(); in60.setDate(in60.getDate() + 60);
+  const d = document.getElementById('bdDatum');
+  const b = document.getElementById('bdBeginn');
+  const e = document.getElementById('bdEnde');
+  if (d) d.value = today;
+  if (b) b.value = in30.toISOString().substring(0,10);
+  if (e) e.value = in60.toISOString().substring(0,10);
+  // Auto ID
+  const bdId = document.getElementById('bdId');
+  if (bdId) bdId.value = 'BD-' + String(Date.now()).slice(-5);
 }
+
 
 // ══════════════════════════════════════════════
 // PERSONENTABELLE — Zeile hinzufügen
 // ══════════════════════════════════════════════
 function addPersonRow() {
-const tbody = document.getElementById(‘personTableBody’);
-const row = document.createElement(‘tr’);
-row.innerHTML = `<td><input class="form-control" placeholder="Nachname" style="min-width:120px"></td> <td><input class="form-control" placeholder="Vorname" style="min-width:100px"></td> <td><input class="form-control" placeholder="P-${String(Date.now()).slice(-4)}" style="min-width:90px"></td> <td><select class="form-control" style="min-width:130px"> <option>ABT-1: Planung</option><option>ABT-2: Logistik</option> <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option> </select></td> <td><input class="form-control" placeholder="Funktion" style="min-width:110px"></td> <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>`;
-tbody.appendChild(row);
+  const tbody = document.getElementById('personTableBody');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><input class="form-control" placeholder="Nachname" style="min-width:120px"></td>
+    <td><input class="form-control" placeholder="Vorname" style="min-width:100px"></td>
+    <td><input class="form-control" placeholder="P-${String(Date.now()).slice(-4)}" style="min-width:90px"></td>
+    <td><select class="form-control" style="min-width:130px">
+      <option>ABT-1: Planung</option><option>ABT-2: Logistik</option>
+      <option>ABT-3: Technik</option><option>ABT-4: Infrastruktur</option><option>ABT-5: Support</option>
+    </select></td>
+    <td><input class="form-control" placeholder="Funktion" style="min-width:110px"></td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove()">✕</button></td>
+  `;
+  tbody.appendChild(row);
 }
 
 // ══════════════════════════════════════════════
@@ -3317,291 +3333,316 @@ tbody.appendChild(row);
 
 // Fahrzeugtypen mit automatischer Abstellfläche und Zuladung
 const _fzTypen = {
-lkw: [
-{ label:‘Standard-LKW (7,5t)’,  flaeche:42, zuladung:‘7,5t’ },
-{ label:‘LKW 15t’,              flaeche:50, zuladung:‘15t’  },
-{ label:‘Schwerlast-LKW (40t)’, flaeche:56, zuladung:‘40t’  },
-{ label:‘Kühlfahrzeug’,         flaeche:45, zuladung:‘variabel’ },
-{ label:‘Tankfahrzeug’,         flaeche:48, zuladung:‘variabel’ },
-{ label:‘Sattelzug’,            flaeche:70, zuladung:‘25t’  },
-],
-pkw: [
-{ label:‘Standard PKW’,            flaeche:8,  zuladung:‘5 Pax’ },
-{ label:‘Geländefahrzeug (SUV)’,    flaeche:9,  zuladung:‘5 Pax’ },
-{ label:‘Limousine’,               flaeche:9,  zuladung:‘4 Pax’ },
-{ label:‘Kombi’,                   flaeche:9,  zuladung:‘5 Pax + Gepäck’ },
-],
-bus: [
-{ label:‘Minibus (9 Pax)’,    flaeche:14, zuladung:‘9 Pax’  },
-{ label:‘Reisebus (50 Pax)’, flaeche:40, zuladung:‘50 Pax’ },
-{ label:‘Gelenkbus’,         flaeche:55, zuladung:‘120 Pax’},
-],
-container: [
-{ label:‘20-Fuß-Standard’,   flaeche:14, zuladung:‘22t’ },
-{ label:‘40-Fuß-Standard’,   flaeche:28, zuladung:‘26t’ },
-{ label:‘Bürocontainer’,     flaeche:14, zuladung:’—’   },
-{ label:‘Schlafcontainer’,   flaeche:14, zuladung:’—’   },
-{ label:‘Sanitärcontainer’,  flaeche:14, zuladung:’—’   },
-],
-transporter: [
-{ label:‘Kleintransporter (3,5t)’, flaeche:12, zuladung:‘3,5t’ },
-{ label:‘Großraumtransporter’,     flaeche:15, zuladung:‘5t’   },
-{ label:‘Sprinter’,                flaeche:12, zuladung:‘3t’   },
-]
+  lkw: [
+    { label:'Standard-LKW (7,5t)',  flaeche:42, zuladung:'7,5t' },
+    { label:'LKW 15t',              flaeche:50, zuladung:'15t'  },
+    { label:'Schwerlast-LKW (40t)', flaeche:56, zuladung:'40t'  },
+    { label:'Kühlfahrzeug',         flaeche:45, zuladung:'variabel' },
+    { label:'Tankfahrzeug',         flaeche:48, zuladung:'variabel' },
+    { label:'Sattelzug',            flaeche:70, zuladung:'25t'  },
+  ],
+  pkw: [
+    { label:'Standard PKW',            flaeche:8,  zuladung:'5 Pax' },
+    { label:'Geländefahrzeug (SUV)',    flaeche:9,  zuladung:'5 Pax' },
+    { label:'Limousine',               flaeche:9,  zuladung:'4 Pax' },
+    { label:'Kombi',                   flaeche:9,  zuladung:'5 Pax + Gepäck' },
+  ],
+  bus: [
+    { label:'Minibus (9 Pax)',    flaeche:14, zuladung:'9 Pax'  },
+    { label:'Reisebus (50 Pax)', flaeche:40, zuladung:'50 Pax' },
+    { label:'Gelenkbus',         flaeche:55, zuladung:'120 Pax'},
+  ],
+  container: [
+    { label:'20-Fuß-Standard',   flaeche:14, zuladung:'22t' },
+    { label:'40-Fuß-Standard',   flaeche:28, zuladung:'26t' },
+    { label:'Bürocontainer',     flaeche:14, zuladung:'—'   },
+    { label:'Schlafcontainer',   flaeche:14, zuladung:'—'   },
+    { label:'Sanitärcontainer',  flaeche:14, zuladung:'—'   },
+  ],
+  transporter: [
+    { label:'Kleintransporter (3,5t)', flaeche:12, zuladung:'3,5t' },
+    { label:'Großraumtransporter',     flaeche:15, zuladung:'5t'   },
+    { label:'Sprinter',                flaeche:12, zuladung:'3t'   },
+  ]
 };
 
-const _anhaengerFlaeche = { ‘0’:0, ‘20’:20, ‘30’:30, ‘40’:40, ‘14’:14, ‘28’:28 };
+const _anhaengerFlaeche = { '0':0, '20':20, '30':30, '40':40, '14':14, '28':28 };
 
 function _buildTypOptions(kat) {
-return (_fzTypen[kat] || []).map(t =>
-`<option value="${t.label}" data-flaeche="${t.flaeche}" data-zuladung="${t.zuladung}">${t.label}</option>`
-).join(’’);
+  return (_fzTypen[kat] || []).map(t =>
+    `<option value="${t.label}" data-flaeche="${t.flaeche}" data-zuladung="${t.zuladung}">${t.label}</option>`
+  ).join('');
 }
 
-function _isLkw(kat) { return kat === ‘lkw’; }
+function _isLkw(kat) { return kat === 'lkw'; }
 
 function updateFahrzeugTyp(katSelect) {
-const row = katSelect.closest(‘tr’);
-const kat = katSelect.value;
-const typSelect = row.querySelector(’.fz-typ-select’);
-const anhaengerCell = row.querySelector(’.fz-anhaenger-cell’);
+  const row = katSelect.closest('tr');
+  const kat = katSelect.value;
+  const typSelect = row.querySelector('.fz-typ-select');
+  const anhaengerCell = row.querySelector('.fz-anhaenger-cell');
 
-typSelect.innerHTML = _buildTypOptions(kat);
-// Show/hide Anhänger only for LKW
-if (anhaengerCell) anhaengerCell.style.display = _isLkw(kat) ? ‘’ : ‘none’;
-// Trigger auto-fill
-autoFlaeche(typSelect);
+  typSelect.innerHTML = _buildTypOptions(kat);
+  // Show/hide Anhänger only for LKW
+  if (anhaengerCell) anhaengerCell.style.display = _isLkw(kat) ? '' : 'none';
+  // Trigger auto-fill
+  autoFlaeche(typSelect);
 }
 
 function autoFlaeche(typSelect) {
-const row = typSelect.closest(‘tr’);
-const opt = typSelect.options[typSelect.selectedIndex];
-const basisFlaeche = parseFloat(opt.dataset.flaeche) || 0;
-const zuladung = opt.dataset.zuladung || ‘’;
+  const row = typSelect.closest('tr');
+  const opt = typSelect.options[typSelect.selectedIndex];
+  const basisFlaeche = parseFloat(opt.dataset.flaeche) || 0;
+  const zuladung = opt.dataset.zuladung || '';
 
-// Anhänger
-const anhaengerSel = row.querySelector(’.fz-anhaenger’);
-const anhaengerZusatz = anhaengerSel ? (_anhaengerFlaeche[anhaengerSel.value] || 0) : 0;
+  // Anhänger
+  const anhaengerSel = row.querySelector('.fz-anhaenger');
+  const anhaengerZusatz = anhaengerSel ? (_anhaengerFlaeche[anhaengerSel.value] || 0) : 0;
 
-const total = basisFlaeche + anhaengerZusatz;
-const flaecheInput = row.querySelector(’.fz-flaeche’);
-const zuladungInput = row.querySelector(’.fz-zuladung’);
+  const total = basisFlaeche + anhaengerZusatz;
+  const flaecheInput = row.querySelector('.fz-flaeche');
+  const zuladungInput = row.querySelector('.fz-zuladung');
 
-if (flaecheInput) { flaecheInput.value = total; flaecheInput.style.color = ‘var(–amber)’; }
-if (zuladungInput) { zuladungInput.value = zuladung; zuladungInput.style.color = ‘var(–amber)’; }
-updateGesamtflaeche();
+  if (flaecheInput) { flaecheInput.value = total; flaecheInput.style.color = 'var(--amber)'; }
+  if (zuladungInput) { zuladungInput.value = zuladung; zuladungInput.style.color = 'var(--amber)'; }
+  updateGesamtflaeche();
 }
 
-function _makeRow(kat=‘lkw’) {
-const isLkw = _isLkw(kat);
-const typen = _buildTypOptions(kat);
-return `<td><select class="form-control fz-kat-select" style="min-width:120px" onchange="updateFahrzeugTyp(this)"> <option value="lkw" ${kat==='lkw'?'selected':''}>🚛 LKW</option> <option value="pkw" ${kat==='pkw'?'selected':''}>🚗 PKW</option> <option value="bus" ${kat==='bus'?'selected':''}>🚌 Bus</option> <option value="container" ${kat==='container'?'selected':''}>📦 Container</option> <option value="transporter" ${kat==='transporter'?'selected':''}>🚐 Transporter</option> </select></td> <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td> <td><select class="form-control fz-typ-select" style="min-width:175px" onchange="autoFlaeche(this)">${typen}</select></td> <td><input class="form-control fz-zuladung" placeholder="auto" style="min-width:80px;color:var(--amber)" readonly></td> <td class="fz-anhaenger-cell" style="display:${isLkw?'':'none'}"> <select class="form-control fz-anhaenger" style="min-width:180px" onchange="autoFlaeche(this.closest('tr').querySelector('.fz-typ-select'))"> <option value="0">— Kein Anhänger</option> <option value="20">Einachsanhänger (+20 m²)</option> <option value="30">Tandemanhänger (+30 m²)</option> <option value="40">Sattelauflieger (+40 m²)</option> <option value="14">Container-Anh. 20ft (+14 m²)</option> <option value="28">Container-Anh. 40ft (+28 m²)</option> </select> </td> <td><input class="form-control fz-flaeche" type="number" placeholder="auto" style="min-width:75px;color:var(--amber)" oninput="updateGesamtflaeche()"></td> <td><select class="form-control" style="min-width:115px"> <option>Kein ADR</option><option>ADR Klasse 1</option> <option>ADR Klasse 2</option><option>ADR Klasse 3</option><option>ADR Klasse 7</option> </select></td> <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>`;
+function _makeRow(kat='lkw') {
+  const isLkw = _isLkw(kat);
+  const typen = _buildTypOptions(kat);
+  return `
+    <td><select class="form-control fz-kat-select" style="min-width:120px" onchange="updateFahrzeugTyp(this)">
+      <option value="lkw" ${kat==='lkw'?'selected':''}>🚛 LKW</option>
+      <option value="pkw" ${kat==='pkw'?'selected':''}>🚗 PKW</option>
+      <option value="bus" ${kat==='bus'?'selected':''}>🚌 Bus</option>
+      <option value="container" ${kat==='container'?'selected':''}>📦 Container</option>
+      <option value="transporter" ${kat==='transporter'?'selected':''}>🚐 Transporter</option>
+    </select></td>
+    <td><input class="form-control" placeholder="B-AB 1234" style="min-width:110px"></td>
+    <td><select class="form-control fz-typ-select" style="min-width:175px" onchange="autoFlaeche(this)">${typen}</select></td>
+    <td><input class="form-control fz-zuladung" placeholder="auto" style="min-width:80px;color:var(--amber)" readonly></td>
+    <td class="fz-anhaenger-cell" style="display:${isLkw?'':'none'}">
+      <select class="form-control fz-anhaenger" style="min-width:180px" onchange="autoFlaeche(this.closest('tr').querySelector('.fz-typ-select'))">
+        <option value="0">— Kein Anhänger</option>
+        <option value="20">Einachsanhänger (+20 m²)</option>
+        <option value="30">Tandemanhänger (+30 m²)</option>
+        <option value="40">Sattelauflieger (+40 m²)</option>
+        <option value="14">Container-Anh. 20ft (+14 m²)</option>
+        <option value="28">Container-Anh. 40ft (+28 m²)</option>
+      </select>
+    </td>
+    <td><input class="form-control fz-flaeche" type="number" placeholder="auto" style="min-width:75px;color:var(--amber)" oninput="updateGesamtflaeche()"></td>
+    <td><select class="form-control" style="min-width:115px">
+      <option>Kein ADR</option><option>ADR Klasse 1</option>
+      <option>ADR Klasse 2</option><option>ADR Klasse 3</option><option>ADR Klasse 7</option>
+    </select></td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove(); updateGesamtflaeche()">✕</button></td>
+  `;
 }
 
 function addFahrzeugRow() {
-const tbody = document.getElementById(‘fahrzeugTableBody’);
-const row = document.createElement(‘tr’);
-row.innerHTML = _makeRow(‘lkw’);
-tbody.appendChild(row);
-// Auto-fill first row
-const typSel = row.querySelector(’.fz-typ-select’);
-if (typSel) autoFlaeche(typSel);
-updateGesamtflaeche();
+  const tbody = document.getElementById('fahrzeugTableBody');
+  const row = document.createElement('tr');
+  row.innerHTML = _makeRow('lkw');
+  tbody.appendChild(row);
+  // Auto-fill first row
+  const typSel = row.querySelector('.fz-typ-select');
+  if (typSel) autoFlaeche(typSel);
+  updateGesamtflaeche();
 }
 
 function updateGesamtflaeche() {
-const inputs = document.querySelectorAll(’#fahrzeugTableBody .fz-flaeche’);
-let total = 0;
-inputs.forEach(i => { total += parseFloat(i.value)||0; });
-const el = document.getElementById(‘gesamtFlaeche’);
-const cnt = document.getElementById(‘fahrzeugCount’);
-if (el) el.textContent = total.toFixed(0) + ’ m²’;
-if (cnt) cnt.textContent = document.querySelectorAll(’#fahrzeugTableBody tr’).length;
+  const inputs = document.querySelectorAll('#fahrzeugTableBody .fz-flaeche');
+  let total = 0;
+  inputs.forEach(i => { total += parseFloat(i.value)||0; });
+  const el = document.getElementById('gesamtFlaeche');
+  const cnt = document.getElementById('fahrzeugCount');
+  if (el) el.textContent = total.toFixed(0) + ' m²';
+  if (cnt) cnt.textContent = document.querySelectorAll('#fahrzeugTableBody tr').length;
 }
 
 // Init first row on page load
-document.addEventListener(‘DOMContentLoaded’, () => {
-const firstTyp = document.querySelector(’#fahrzeugTableBody .fz-typ-select’);
-if (firstTyp) setTimeout(() => autoFlaeche(firstTyp), 100);
+document.addEventListener('DOMContentLoaded', () => {
+  const firstTyp = document.querySelector('#fahrzeugTableBody .fz-typ-select');
+  if (firstTyp) setTimeout(() => autoFlaeche(firstTyp), 100);
 });
 
 // ══════════════════════════════════════════════
 // DOWNLOAD — App als HTML-Datei speichern
 // ══════════════════════════════════════════════
 async function downloadApp() {
-const html = ‘<!DOCTYPE html>\n’ + document.documentElement.outerHTML;
-const blob = new Blob([html], { type: ‘text/html;charset=utf-8’ });
-const file = new File([blob], ‘OPS360.html’, { type: ‘text/html’ });
-const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const file = new File([blob], 'OPS360.html', { type: 'text/html' });
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-// ── Methode 1: Web Share API mit File (iOS 15+ Safari) ──
-if (isIOS && navigator.canShare && navigator.canShare({ files: [file] })) {
-try {
-await navigator.share({
-files: [file],
-title: ‘OPS360’,
-text: ‘OPS360 Global Operations Management’
-});
-showToast(‘✅ Speicherdialog geöffnet’, ‘green’);
-return;
-} catch(e) {
-if (e.name !== ‘AbortError’) {
-// Share failed — fall through to next method
-} else {
-return; // User cancelled
-}
-}
+  // ── Methode 1: Web Share API mit File (iOS 15+ Safari) ──
+  if (isIOS && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: 'OPS360',
+        text: 'OPS360 Global Operations Management'
+      });
+      showToast('✅ Speicherdialog geöffnet', 'green');
+      return;
+    } catch(e) {
+      if (e.name !== 'AbortError') {
+        // Share failed — fall through to next method
+      } else {
+        return; // User cancelled
+      }
+    }
+  }
+
+  // ── Methode 2: Desktop / Android Download ──
+  if (!isIOS) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'OPS360.html';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    showToast('📥 OPS360.html wird gespeichert...', 'amber');
+    return;
+  }
+
+  // ── Methode 3: iOS Fallback — neuer Tab mit Speicher-Anleitung ──
+  const url = URL.createObjectURL(blob);
+  const newTab = window.open(url, '_blank');
+  if (newTab) {
+    showToast('📋 Teilen ↑ → „In Dateien sichern" antippen', 'amber');
+  } else {
+    openModal('saveModal');
+    document.getElementById('saveContent').value = html;
+  }
 }
 
-// ── Methode 2: Desktop / Android Download ──
-if (!isIOS) {
-const url = URL.createObjectURL(blob);
-const a = document.createElement(‘a’);
-a.href = url;
-a.download = ‘OPS360.html’;
-document.body.appendChild(a);
-a.click();
-setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
-showToast(‘📥 OPS360.html wird gespeichert…’, ‘amber’);
-return;
-}
-
-// ── Methode 3: iOS Fallback — neuer Tab mit Speicher-Anleitung ──
-const url = URL.createObjectURL(blob);
-const newTab = window.open(url, ‘_blank’);
-if (newTab) {
-showToast(‘📋 Teilen ↑ → „In Dateien sichern” antippen’, ‘amber’);
-} else {
-openModal(‘saveModal’);
-document.getElementById(‘saveContent’).value = html;
-}
-}
 
 function openInNewTab() {
-const html = ‘<!DOCTYPE html>\n’ + document.documentElement.outerHTML;
-const blob = new Blob([html], { type: ‘text/html;charset=utf-8’ });
-const url = URL.createObjectURL(blob);
-window.open(url, ‘_blank’);
-showToast(‘📋 Teilen ↑ → In Dateien sichern’, ‘amber’);
+  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  showToast('📋 Teilen ↑ → In Dateien sichern', 'amber');
 }
 
 function copySaveContent() {
-const ta = document.getElementById(‘saveContent’);
-if (!ta.value) {
-const html = ‘<!DOCTYPE html>\n’ + document.documentElement.outerHTML;
-ta.value = html;
+  const ta = document.getElementById('saveContent');
+  if (!ta.value) {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    ta.value = html;
+  }
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('✅ Code kopiert! In Notizen einfügen & als .html speichern', 'green');
+  } catch(e) {
+    navigator.clipboard.writeText(ta.value).then(() => {
+      showToast('✅ Code kopiert!', 'green');
+    });
+  }
 }
-ta.select();
-try {
-document.execCommand(‘copy’);
-showToast(‘✅ Code kopiert! In Notizen einfügen & als .html speichern’, ‘green’);
-} catch(e) {
-navigator.clipboard.writeText(ta.value).then(() => {
-showToast(‘✅ Code kopiert!’, ‘green’);
-});
-}
-}
+
 
 // ══════════════════════════════════════════════
 // GITHUB SAVE — direkt ins Repository schreiben
 // ══════════════════════════════════════════════
 async function saveToGitHub() {
-const btn = document.getElementById(‘githubSaveBtn’);
-btn.textContent = ‘⏳ Wird gespeichert…’;
-btn.style.opacity = ‘0.6’;
-btn.disabled = true;
+  const btn = document.getElementById('githubSaveBtn');
+  btn.textContent = '⏳ Wird gespeichert...';
+  btn.style.opacity = '0.6';
+  btn.disabled = true;
 
-try {
-const html = ‘<!DOCTYPE html>\n’ + document.documentElement.outerHTML;
-const base64 = btoa(unescape(encodeURIComponent(html)));
+  try {
+    const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    const base64 = btoa(unescape(encodeURIComponent(html)));
 
-```
-// Get current file SHA (needed for update)
-const shaRes = await fetch(
-  'https://api.github.com/repos/ms150171/ops360/contents/OPS360.html',
-  { headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' } }
-);
-const shaData = await shaRes.json();
-const sha = shaData.sha;
+    // Get current file SHA (needed for update)
+    const shaRes = await fetch(
+      'https://api.github.com/repos/ms150171/ops360/contents/OPS360.html',
+      { headers: { 'Authorization': 'token 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', 'Accept': 'application/vnd.github.v3+json' } }
+    );
+    const shaData = await shaRes.json();
+    const sha = shaData.sha;
 
-// Push updated file
-const updateRes = await fetch(
-  'https://api.github.com/repos/ms150171/ops360/contents/OPS360.html',
-  {
-    method: 'PUT',
-    headers: {
-      'Authorization': 'token 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',
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      message: 'OPS360 Update ' + new Date().toISOString().substring(0,16).replace('T',' '),
-      content: base64,
-      sha: sha
-    })
+    // Push updated file
+    const updateRes = await fetch(
+      'https://api.github.com/repos/ms150171/ops360/contents/OPS360.html',
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'token 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',
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'OPS360 Update ' + new Date().toISOString().substring(0,16).replace('T',' '),
+          content: base64,
+          sha: sha
+        })
+      }
+    );
+
+    if (updateRes.ok) {
+      showToast('✅ Auf GitHub gespeichert! Live in ~1 Min.', 'green');
+    } else {
+      const err = await updateRes.json();
+      showToast('❌ Fehler: ' + (err.message || 'Unbekannt'), 'red');
+    }
+  } catch(e) {
+    showToast('❌ Verbindungsfehler: ' + e.message, 'red');
+  } finally {
+    btn.textContent = '☁️ GitHub speichern';
+    btn.style.opacity = '1';
+    btn.disabled = false;
   }
-);
-
-if (updateRes.ok) {
-  showToast('✅ Auf GitHub gespeichert! Live in ~1 Min.', 'green');
-} else {
-  const err = await updateRes.json();
-  showToast('❌ Fehler: ' + (err.message || 'Unbekannt'), 'red');
-}
-```
-
-} catch(e) {
-showToast(’❌ Verbindungsfehler: ’ + e.message, ‘red’);
-} finally {
-btn.textContent = ‘☁️ GitHub speichern’;
-btn.style.opacity = ‘1’;
-btn.disabled = false;
-}
 }
 
 // ══════════════════════════════════════════════
 // SERVICE WORKER REGISTRATION
 // ══════════════════════════════════════════════
-if (‘serviceWorker’ in navigator) {
-// SW registered inline above
+if ('serviceWorker' in navigator) {
+  // SW registered inline above
 }
 
 // ══════════════════════════════════════════════
 // PWA INSTALL
 // ══════════════════════════════════════════════
 let deferredPrompt;
-window.addEventListener(‘beforeinstallprompt’, (e) => {
-e.preventDefault(); deferredPrompt = e;
-const btn = document.createElement(‘button’);
-btn.className = ‘topbar-btn’;
-btn.textContent = ‘📱 App installieren’;
-btn.onclick = async () => { deferredPrompt.prompt(); btn.remove(); };
-document.querySelector(’.topbar-right’).prepend(btn);
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault(); deferredPrompt = e;
+  const btn = document.createElement('button');
+  btn.className = 'topbar-btn';
+  btn.textContent = '📱 App installieren';
+  btn.onclick = async () => { deferredPrompt.prompt(); btn.remove(); };
+  document.querySelector('.topbar-right').prepend(btn);
 });
 
 // ══════════════════════════════════════════════
 // BOOTSTRAP
 // ══════════════════════════════════════════════
-document.addEventListener(‘DOMContentLoaded’, () => {
-renderDashboard();
-renderPhase2();
-renderTransit();
-renderServices();
-renderPersonal();
-renderTransport();
-renderAbrechnung();
-renderPartner();
-renderVorlagen();
-renderAbteilungen();
-initDates();
-showStep(1);
+document.addEventListener('DOMContentLoaded', () => {
+  renderDashboard();
+  renderPhase2();
+  renderTransit();
+  renderServices();
+  renderPersonal();
+  renderTransport();
+  renderAbrechnung();
+  renderPartner();
+  renderVorlagen();
+  renderAbteilungen();
+  initDates();
+  showStep(1);
 
-// Mobile sidebar
-if (window.innerWidth <= 900) {
-document.getElementById(‘menuBtn’).style.display = ‘block’;
-}
+  // Mobile sidebar
+  if (window.innerWidth <= 900) {
+    document.getElementById('menuBtn').style.display = 'block';
+  }
 });
 </script>
-
 </body>
 </html>
