@@ -22,10 +22,10 @@ input[type=file]{width:100%;padding:12px;background:#0d1225;border:2px dashed #f
 </head>
 <body>
 <div class="box">
-  <h1>☁️ OPS360 Uploader</h1>
-  <p>Wähle deine gespeicherte <b>OPS360.html.txt</b> Datei — sie wird automatisch als <b>OPS360.html</b> auf GitHub hochgeladen.</p>
+  <h1>âï¸ OPS360 Uploader</h1>
+  <p>WÃ¤hle deine gespeicherte <b>OPS360.html.txt</b> Datei â sie wird automatisch als <b>OPS360.html</b> auf GitHub hochgeladen.</p>
   <input type="file" id="fileInput" accept=".html,.txt,.html.txt">
-  <button class="btn" id="btn" onclick="upload()">🚀 Auf GitHub hochladen</button>
+  <button class="btn" id="btn" onclick="upload()">ð Auf GitHub hochladen</button>
   <div class="bar"><div class="fill" id="fill"></div></div>
   <div class="status" id="st"></div>
 </div>
@@ -35,9 +35,9 @@ function st(m,t){const e=document.getElementById('st');e.textContent=m;e.classNa
 function prog(p){document.getElementById('fill').style.width=p+'%';}
 async function upload(){
   const f=document.getElementById('fileInput').files[0];
-  if(!f){st('❌ Bitte zuerst eine Datei auswählen','err');return;}
+  if(!f){st('â Bitte zuerst eine Datei auswÃ¤hlen','err');return;}
   const btn=document.getElementById('btn');
-  btn.disabled=true;btn.textContent='⏳ Wird hochgeladen...';
+  btn.disabled=true;btn.textContent='â³ Wird hochgeladen...';
   try{
     st('Datei wird gelesen...','info');prog(20);
     const text=await f.text();
@@ -54,9 +54,9 @@ async function upload(){
       body:JSON.stringify({message:'OPS360 Update '+new Date().toISOString().slice(0,16).replace('T',' '),content:b64,sha:shaD.sha})
     });
     prog(100);
-    if(up.ok){st('✅ Erfolgreich! OPS360 ist in 1-2 Minuten aktuell.','ok');btn.textContent='✅ Fertig!';btn.style.background='#10b981';}
+    if(up.ok){st('â Erfolgreich! OPS360 ist in 1-2 Minuten aktuell.','ok');btn.textContent='â Fertig!';btn.style.background='#10b981';}
     else{const e=await up.json();throw new Error(e.message);}
-  }catch(e){st('❌ Fehler: '+e.message,'err');btn.disabled=false;btn.textContent='🔄 Erneut versuchen';}
+  }catch(e){st('â Fehler: '+e.message,'err');btn.disabled=false;btn.textContent='ð Erneut versuchen';}
 }
 </script>
 </body>
